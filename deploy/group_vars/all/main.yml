@@ -1,0 +1,95 @@
+# Every setting of a deployment. Secrets live in secrets.yml next to this file.
+
+# --- The application --------------------------------------------------------
+# Short name: used for the database, the system user's files, log and config names.
+# Lower-case letters, digits and dashes.
+app_name: myapp
+
+# Shown in emails and in the monitoring dashboard
+app_display_name: MyApp
+
+# Where the code comes from. For a private repository use the SSH URL and add the
+# deploy key the first run prints to the repository on GitHub.
+repo_url: git@github.com:your-account/your-project.git
+repo_branch: main
+
+# --- Hostnames and TLS ------------------------------------------------------
+# Serves the admin panel and proxies /api to the Go API. DNS must point here before provisioning.
+domain: example.com
+
+# Optional second hostname that serves the API only, for mobile apps or other clients.
+api_domain: ""
+
+# letsencrypt  certificates from Let's Encrypt, HTTP redirected to HTTPS (needs letsencrypt_email)
+# cloudflare   plain HTTP on port 80 behind Cloudflare, which terminates TLS
+# none         plain HTTP, for a test server
+tls_mode: letsencrypt
+letsencrypt_email: you@example.com
+
+# --- Server -----------------------------------------------------------------
+# The unprivileged account that owns the code and runs the API
+app_user: deploy
+app_root: "/var/www/{{ app_name }}"
+timezone: Etc/UTC
+
+# A swap file keeps the frontend build from being killed on a small server. 0 turns it off.
+swap_size_mb: 2048
+
+go_version: "1.25.4"
+goose_version: v3.24.1
+node_major: 22
+
+# --- API --------------------------------------------------------------------
+api_port: 8181
+
+# Run the cron scheduler as its own process next to the API
+enable_scheduler: true
+
+# Open POST /auth/register to anyone
+allow_registration: false
+
+# Serve the API documentation at /swagger/
+expose_swagger: false
+
+jwt_access_token_ttl: 1h
+jwt_refresh_token_ttl: 720h
+
+# --- Mail (leave mail_host empty to send nothing) ---------------------------
+mail_host: ""
+mail_port: 587
+# smtp (STARTTLS), smtps (implicit TLS) or none
+mail_scheme: smtp
+mail_username: ""
+mail_from_address: "noreply@{{ domain }}"
+mail_from_name: "{{ app_display_name }}"
+
+# --- Backups ----------------------------------------------------------------
+# One or more of: local, gcs (comma-separated)
+backup_storage: local
+backup_local_dir: "/var/backups/{{ app_name }}"
+backup_retention_days: 14
+# Cron times (server time zone)
+backup_db_hour: "3"
+backup_db_minute: "15"
+backup_files_hour: "3"
+backup_files_minute: "45"
+
+# Only for gcs: the bucket, and the path on THIS machine of the service account key to upload
+backup_gcs_bucket: ""
+backup_gcs_credentials_file: ""
+
+# --- Derived (no need to change) --------------------------------------------
+db_name: "{{ app_name | replace('-', '_') }}"
+db_user: "{{ app_name | replace('-', '_') }}"
+database_url: "postgres://{{ db_user }}:{{ db_password }}@127.0.0.1:5432/{{ db_name }}?sslmode=disable"
+site_scheme: "{{ 'http' if tls_mode == 'none' else 'https' }}"
+site_url: "{{ site_scheme }}://{{ domain }}"
+uploads_dir: "{{ app_root }}/shared/uploads"
+log_dir: "/var/log/{{ app_name }}"
+backend_dir: "{{ app_root }}/backend"
+frontend_dir: "{{ app_root }}/frontend"
+backup_dir: "{{ app_root }}/backup"
+go_env:
+  PATH: "/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin"
+  CGO_ENABLED: "0"
+  GOFLAGS: "-buildvcs=false"

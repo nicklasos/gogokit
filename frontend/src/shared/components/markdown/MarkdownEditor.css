@@ -1,0 +1,84 @@
+/* Keep the editor's popups above Ant Design modals, but do not force hidden Radix
+   layers visible: that can cover the page in a white overlay. */
+.mdxeditor-popup-container {
+  z-index: 1100;
+}
+
+[data-radix-select-content],
+[data-radix-select-content-impl],
+[data-radix-select-viewport],
+[data-radix-popper-content-wrapper],
+[data-radix-dropdown-menu-content],
+[data-floating-ui-portal] {
+  z-index: 1100;
+}
+
+.markdown-editor {
+  border: 1px solid var(--ant-color-border);
+  border-radius: var(--ant-border-radius);
+  background: var(--ant-color-bg-container);
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  min-width: 0;
+  transition: border-color 0.2s;
+}
+
+.markdown-editor:focus-within {
+  border-color: var(--ant-color-primary);
+}
+
+.ant-form-item-has-error .markdown-editor {
+  border-color: var(--ant-color-error);
+}
+
+.markdown-editor--disabled {
+  padding: 8px 12px;
+  background: var(--ant-color-bg-container-disabled);
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
+  overflow: auto;
+}
+
+.markdown-editor .mdxeditor {
+  max-width: 100%;
+}
+
+.markdown-editor .mdxeditor-toolbar {
+  flex-wrap: wrap;
+  overflow: visible;
+  max-width: 100%;
+  box-sizing: border-box;
+  row-gap: 4px;
+  border-radius: var(--ant-border-radius) var(--ant-border-radius) 0 0;
+}
+
+.markdown-editor .mdxeditor-root-contenteditable {
+  overflow: visible;
+}
+
+.markdown-editor-content {
+  font-family: inherit;
+  line-height: 1.6;
+  color: var(--ant-color-text);
+}
+
+.markdown-editor-content blockquote {
+  margin: 16px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--ant-color-border);
+}
+
+.markdown-editor-content blockquote p {
+  margin: 0;
+}
+
+.markdown-editor-crash {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+}

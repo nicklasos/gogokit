@@ -1,0 +1,12 @@
+- name: Install Redis
+  ansible.builtin.apt:
+    name: redis-server
+    state: present
+
+# The Ubuntu package listens on localhost only, and the firewall closes the port anyway,
+# so the cache and the monitoring history are not reachable from outside.
+- name: Make sure Redis is running
+  ansible.builtin.service:
+    name: redis-server
+    state: started
+    enabled: true

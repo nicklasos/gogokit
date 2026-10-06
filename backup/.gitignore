@@ -1,0 +1,8 @@
+# Local dumps, zips, and secrets
+.env
+*.sql
+*.zip
+*.json
+.gcloud/
+logs/*
+!logs/.gitkeep

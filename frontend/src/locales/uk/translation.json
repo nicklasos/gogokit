@@ -1,0 +1,296 @@
+{
+  "common": {
+    "appName": "Gogo Admin",
+    "loading": "Завантаження...",
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "create": "Створити",
+    "actions": "Дії",
+    "back": "Назад",
+    "english": "English",
+    "ukrainian": "Українська",
+    "languageChanged": "Мову змінено",
+    "required": "Обовʼязкове поле",
+    "createdAt": "Створено",
+    "yes": "Так",
+    "no": "Ні",
+    "copied": "Скопійовано",
+    "search": "Пошук",
+    "notFound": "Не знайдено",
+    "retry": "Спробувати ще раз",
+    "backHome": "На головну"
+  },
+  "auth": {
+    "welcome": "Увійдіть, щоб продовжити",
+    "email": "Email",
+    "password": "Пароль",
+    "loginButton": "Увійти",
+    "logout": "Вийти",
+    "emailRequired": "Email обовʼязковий",
+    "emailInvalid": "Введіть коректний email",
+    "passwordRequired": "Пароль обовʼязковий",
+    "invalidCredentials": "Невірний email або пароль",
+    "accessDenied": "Доступ заборонено",
+    "noPermission": "У вас немає прав на перегляд цієї сторінки.",
+    "forgotPassword": "Забули пароль?",
+    "forgotPasswordTitle": "Відновлення пароля",
+    "forgotPasswordHint": "Введіть email, і ми надішлемо посилання для встановлення нового пароля.",
+    "sendResetLink": "Надіслати посилання",
+    "resetLinkSentTitle": "Перевірте пошту",
+    "resetLinkSent": "Якщо цей email належить акаунту, посилання для відновлення пароля вже в дорозі.",
+    "backToLogin": "Назад до входу",
+    "resetPasswordTitle": "Оберіть новий пароль",
+    "setNewPassword": "Встановити пароль",
+    "passwordResetDone": "Пароль оновлено. Увійдіть з новим.",
+    "requestNewLink": "Запросити нове посилання",
+    "emailVerified": "Email підтверджено",
+    "verifyEmailRetryHint": "Нове посилання можна запросити у профілі.",
+    "continue": "Продовжити",
+    "tooManyAttempts": {
+      "minute": "Забагато спроб. Спробуйте за хвилину.",
+      "minutes_one": "Забагато спроб. Спробуйте через {{count}} хвилину.",
+      "minutes_few": "Забагато спроб. Спробуйте через {{count}} хвилини.",
+      "minutes_many": "Забагато спроб. Спробуйте через {{count}} хвилин.",
+      "minutes_other": "Забагато спроб. Спробуйте через {{count}} хвилини.",
+      "hours_one": "Забагато спроб. Спробуйте через {{count}} годину.",
+      "hours_few": "Забагато спроб. Спробуйте через {{count}} години.",
+      "hours_many": "Забагато спроб. Спробуйте через {{count}} годин.",
+      "hours_other": "Забагато спроб. Спробуйте через {{count}} години."
+    }
+  },
+  "navigation": {
+    "dashboard": "Дашборд",
+    "examples": "Приклади",
+    "users": "Користувачі",
+    "profile": "Профіль",
+    "adminMenu": "Адмін-меню",
+    "superAdmins": "Супер-адміни",
+    "admins": "Адміни",
+    "files": "Файли"
+  },
+  "enums": {
+    "role": {
+      "super-admin": "Супер-адмін",
+      "admin": "Адмін",
+      "user": "Користувач"
+    },
+    "uploadType": {
+      "image": "Зображення",
+      "video": "Відео",
+      "audio": "Аудіо",
+      "document": "Документ",
+      "other": "Інше"
+    }
+  },
+  "dashboard": {
+    "title": "Дашборд",
+    "welcome": "Вітаємо, {{name}}",
+    "subtitle": "Використовуйте меню для керування прикладами."
+  },
+  "examples": {
+    "title": "Приклади",
+    "add": "Додати приклад",
+    "edit": "Редагувати приклад",
+    "create": "Створити приклад",
+    "titleField": "Заголовок",
+    "descriptionField": "Опис",
+    "titleRequired": "Заголовок обовʼязковий",
+    "deleted": "Приклад видалено",
+    "saved": "Приклад збережено",
+    "deleteConfirm": "Видалити цей приклад?",
+    "empty": "Прикладів ще немає",
+    "view": "Переглянути"
+  },
+  "userManagement": {
+    "byRole": {
+      "super-admin": {
+        "title": "Супер-адміни",
+        "add": "Додати супер-адміна",
+        "edit": "Редагувати супер-адміна"
+      },
+      "admin": {
+        "title": "Адміни",
+        "add": "Додати адміна",
+        "edit": "Редагувати адміна"
+      },
+      "user": {
+        "title": "Користувачі",
+        "add": "Додати користувача",
+        "edit": "Редагувати користувача"
+      }
+    },
+    "userName": "Імʼя",
+    "userEmail": "Email",
+    "password": "Пароль",
+    "newPassword": "Новий пароль",
+    "setPassword": "Встановити пароль",
+    "passwordTooShort": "Щонайменше 8 символів",
+    "roles": "Ролі",
+    "empty": "Користувачів ще немає",
+    "userCreated": "Користувача створено",
+    "userUpdated": "Користувача оновлено",
+    "userDeleted": "Користувача видалено",
+    "passwordUpdated": "Пароль оновлено",
+    "deleteConfirm": "Видалити цього користувача?",
+    "deleteConfirmDescription": "Цю дію неможливо скасувати."
+  },
+  "profile": {
+    "title": "Профіль",
+    "personalInfo": "Особисті дані",
+    "name": "Імʼя",
+    "language": "Мова",
+    "updateProfile": "Оновити профіль",
+    "profileUpdated": "Профіль оновлено",
+    "changePassword": "Змінити пароль",
+    "currentPassword": "Поточний пароль",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтвердіть пароль",
+    "passwordMismatch": "Паролі не збігаються",
+    "passwordChanged": "Пароль змінено",
+    "emailNotVerified": "Ваш email не підтверджено",
+    "emailNotVerifiedHint": "Ми надіслали посилання для підтвердження на {{email}}.",
+    "resendVerification": "Надіслати ще раз",
+    "verificationSent": "Лист для підтвердження надіслано"
+  },
+  "messages": {
+    "unsavedChangesTitle": "Незбережені зміни",
+    "unsavedChanges": "Є незбережені зміни. Вийти без збереження?",
+    "unsavedChangesLeave": "Вийти"
+  },
+  "errors": {
+    "fallback": "Щось пішло не так",
+    "unauthorized": "Не авторизовано",
+    "forbidden": "Заборонено",
+    "bad_request": "Некоректний запит",
+    "not_found": "Не знайдено",
+    "internal_error": "Внутрішня помилка сервера",
+    "auth.invalid_credentials": "Невірний email або пароль",
+    "auth.invalid_token": "Невірний або прострочений токен",
+    "auth.token_required": "Потрібна авторизація",
+    "auth.user_not_found": "Користувача не знайдено",
+    "auth.user_exists": "Користувач із таким email уже існує",
+    "auth.invalid_current_password": "Поточний пароль невірний",
+    "users.not_found": "Користувача не знайдено",
+    "users.forbidden_role": "Ви не можете керувати користувачами з цією роллю",
+    "users.cannot_delete_self": "Ви не можете видалити себе",
+    "examples.not_found": "Приклад не знайдено",
+    "uploads.not_found": "Файл не знайдено",
+    "validation.failed": "Помилка валідації",
+    "validation.required": "Обовʼязкове поле",
+    "validation.email": "Некоректний email",
+    "validation.min": "Значення закоротке або замале",
+    "validation.max": "Значення задовге або завелике",
+    "validation.oneof": "Недопустиме значення",
+    "validation.invalid": "Некоректне значення",
+    "validation.type_mismatch": "Невірний тип значення",
+    "validation.body_invalid": "Некоректний запит",
+    "validation.title.required": "Заголовок обовʼязковий",
+    "network": "Не вдалося зʼєднатися із сервером. Перевірте зʼєднання і спробуйте ще раз.",
+    "auth.too_many_requests": "Забагато спроб. Спробуйте пізніше.",
+    "auth.registration_disabled": "Реєстрацію вимкнено",
+    "auth.invalid_or_expired_link": "Посилання недійсне або термін його дії минув",
+    "auth.email_already_verified": "Ваш email уже підтверджено",
+    "uploads.type_not_allowed": "Цей тип файлу не дозволено",
+    "uploads.too_large": "Файл завеликий",
+    "uploads.empty": "Файл порожній",
+    "validation.error": "Некоректний запит",
+    "crashTitle": "На цій сторінці сталася помилка",
+    "crashHint": "Решта застосунку працює. Спробуйте ще раз або перезавантажте сторінку.",
+    "reloadPage": "Перезавантажити сторінку"
+  },
+  "uploads": {
+    "title": "Файли",
+    "hint": "Зображення, документи, аудіо та відео до {{max}} МБ.",
+    "upload": "Завантажити",
+    "uploaded": "Файл завантажено",
+    "deleted": "Файл видалено",
+    "deleteConfirm": "Видалити цей файл?",
+    "empty": "Файлів ще немає",
+    "name": "Назва",
+    "type": "Тип",
+    "size": "Розмір",
+    "tooLarge": "Файл більший за {{max}} МБ"
+  },
+  "editor": {
+    "placeholder": "Введіть текст",
+    "dialogControls": {
+      "save": "Зберегти",
+      "cancel": "Скасувати"
+    },
+    "createLink": {
+      "url": "URL",
+      "urlPlaceholder": "Виберіть або вставте URL",
+      "title": "Назва",
+      "saveTooltip": "Установити URL",
+      "cancelTooltip": "Скасувати зміну"
+    },
+    "linkPreview": {
+      "open": "Відкрити {{url}} у новому вікні",
+      "edit": "Редагувати URL посилання",
+      "copyToClipboard": "Скопіювати в буфер обміну",
+      "copied": "Скопійовано!",
+      "remove": "Видалити посилання"
+    },
+    "toolbar": {
+      "blockTypes": {
+        "paragraph": "Абзац",
+        "quote": "Цитата",
+        "heading": "Заголовок {{level}}"
+      },
+      "blockTypeSelect": {
+        "selectBlockTypeTooltip": "Виберіть тип блоку",
+        "placeholder": "Тип блоку"
+      },
+      "toggleGroup": "Група перемикачів",
+      "removeBold": "Прибрати жирний шрифт",
+      "bold": "Жирний шрифт",
+      "removeItalic": "Видалити курсив",
+      "italic": "Курсив",
+      "underline": "Прибрати підкреслення",
+      "removeUnderline": "Підкреслення",
+      "removeInlineCode": "Видалити форматування коду",
+      "inlineCode": "Формат вбудованого коду",
+      "link": "Створити посилання",
+      "richText": "Розширений текст",
+      "diffMode": "Режим різниці",
+      "source": "Режим вихідних даних",
+      "admonition": "Вставити застереження",
+      "codeBlock": "Вставити блок коду",
+      "editFrontmatter": "Редагувати frontmatter",
+      "insertFrontmatter": "Вставити frontmatter",
+      "image": "Вставити зображення",
+      "insertSandpack": "Вставити Sandpack",
+      "table": "Вставити таблицю",
+      "thematicBreak": "Вставити тематичний розрив",
+      "bulletedList": "Маркований список",
+      "numberedList": "Нумерований список",
+      "checkList": "Контрольний список",
+      "deleteSandpack": "Видалити цей блок коду",
+      "undo": "Скасувати {{shortcut}}",
+      "redo": "Повторити скасоване {{shortcut}}",
+      "highlight": "Виділити",
+      "removeHighlight": "Прибрати виділення"
+    },
+    "customLinks": {
+      "phone": {
+        "button": "Телефон",
+        "tooltip": "Вставити посилання на телефон",
+        "placeholder": "Введіть номер телефону",
+        "submit": "Вставити телефон"
+      },
+      "email": {
+        "button": "Ел. пошта",
+        "tooltip": "Вставити посилання на email",
+        "placeholder": "Введіть email адресу",
+        "submit": "Вставити email"
+      }
+    },
+    "contentArea": {
+      "editableMarkdown": "редагований маркдаун"
+    },
+    "crashMessage": "Редактор зіткнувся з проблемою. Можна спробувати ще раз, не залишаючи сторінку.",
+    "crashRetry": "Спробувати ще раз"
+  }
+}

@@ -1,0 +1,128 @@
+.markdown-viewer {
+  line-height: 1.6;
+  color: var(--ant-color-text);
+  overflow-wrap: anywhere;
+}
+
+.markdown-viewer > :first-child {
+  margin-top: 0;
+}
+
+.markdown-viewer > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-viewer h1,
+.markdown-viewer h2,
+.markdown-viewer h3,
+.markdown-viewer h4,
+.markdown-viewer h5,
+.markdown-viewer h6 {
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ant-color-text-heading);
+  margin: 16px 0 8px;
+}
+
+.markdown-viewer h1 {
+  font-size: 24px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+}
+
+.markdown-viewer h2 {
+  font-size: 20px;
+}
+
+.markdown-viewer h3 {
+  font-size: 18px;
+}
+
+.markdown-viewer h4,
+.markdown-viewer h5,
+.markdown-viewer h6 {
+  font-size: 16px;
+}
+
+.markdown-viewer p {
+  margin: 8px 0;
+}
+
+.markdown-viewer ul,
+.markdown-viewer ol {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+
+.markdown-viewer li {
+  margin: 4px 0;
+}
+
+.markdown-viewer a {
+  color: var(--ant-color-link);
+  text-decoration: none;
+}
+
+.markdown-viewer a:hover {
+  color: var(--ant-color-link-hover);
+  text-decoration: underline;
+}
+
+.markdown-viewer blockquote {
+  margin: 12px 0;
+  padding: 8px 16px;
+  border-left: 4px solid var(--ant-color-border);
+  background: var(--ant-color-fill-quaternary);
+  color: var(--ant-color-text-secondary);
+}
+
+.markdown-viewer code {
+  padding: 2px 6px;
+  background: var(--ant-color-fill-tertiary);
+  border-radius: var(--ant-border-radius-sm);
+  font-family: var(--ant-font-family-code);
+  font-size: 0.9em;
+}
+
+.markdown-viewer pre {
+  margin: 12px 0;
+  padding: 12px;
+  background: var(--ant-color-fill-tertiary);
+  border-radius: var(--ant-border-radius);
+  overflow-x: auto;
+}
+
+.markdown-viewer pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.markdown-viewer hr {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid var(--ant-color-border-secondary);
+}
+
+.markdown-viewer img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--ant-border-radius);
+}
+
+.markdown-viewer table {
+  width: 100%;
+  margin: 12px 0;
+  border-collapse: collapse;
+}
+
+.markdown-viewer th,
+.markdown-viewer td {
+  padding: 8px 12px;
+  border: 1px solid var(--ant-color-border-secondary);
+  text-align: left;
+}
+
+.markdown-viewer th {
+  background: var(--ant-color-fill-quaternary);
+  font-weight: 600;
+}

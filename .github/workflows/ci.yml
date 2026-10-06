@@ -1,0 +1,159 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  TEST_DATABASE_URL: postgres://postgres@localhost:5432/gogo_test?sslmode=disable
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: gogo_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+
+      - name: Install goose
+        run: go install github.com/pressly/goose/v3/cmd/goose@v3.24.1
+
+      - name: Formatting
+        run: test -z "$(gofmt -l cmd config internal tests | grep -v '^internal/db/.*\.sql\.go$')"
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: make test
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: gogo_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      CI: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install goose
+        run: go install github.com/pressly/goose/v3/cmd/goose@v3.24.1
+
+      # The E2E suite starts the API from ../backend, which reads its settings from .env
+      - name: Backend environment
+        working-directory: backend
+        run: |
+          cat > .env <<ENV
+          DATABASE_URL=$TEST_DATABASE_URL
+          TEST_DATABASE_URL=$TEST_DATABASE_URL
+          REDIS_URL=redis://localhost:6379/0
+          JWT_SECRET=ci-only-secret-not-used-anywhere-else
+          APP_ENV=test
+          LOG_OUTPUT=stdout
+          UPLOAD_FOLDER=./uploads
+          ENABLE_SCHEDULER=false
+          ENV
+
+      - name: Frontend environment
+        run: cp .env.example .env
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generated API types are up to date
+        run: make api-types-check
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck, lint, unit and E2E tests
+        run: make test
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
+          retention-days: 7
+
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: pipx install --include-deps ansible
+
+      - name: Install collections
+        run: ansible-galaxy collection install -r requirements.yml
+
+      - name: Syntax check
+        run: |
+          cp inventory/hosts.example.yml inventory/hosts.yml
+          ansible-playbook provision.yml --syntax-check
+          ansible-playbook deploy.yml --syntax-check

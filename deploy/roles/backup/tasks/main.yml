@@ -1,0 +1,61 @@
+- name: Create the backup directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0750"
+  loop:
+    - "{{ backup_local_dir }}"
+    - "{{ backup_dir }}/logs"
+
+- name: Set up Google Cloud Storage
+  when: "'gcs' in backup_storage"
+  block:
+    - name: Add the Google Cloud repository
+      ansible.builtin.deb822_repository:
+        name: google-cloud-sdk
+        types: deb
+        uris: https://packages.cloud.google.com/apt
+        suites: cloud-sdk
+        components: main
+        signed_by: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      register: gcloud_repo
+
+    - name: Install the Google Cloud CLI
+      ansible.builtin.apt:
+        name: google-cloud-cli
+        state: present
+        update_cache: "{{ gcloud_repo is changed }}"
+
+    - name: Upload the service account key
+      ansible.builtin.copy:
+        src: "{{ backup_gcs_credentials_file }}"
+        dest: "{{ app_root }}/shared/gcs-sa.json"
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: "0600"
+
+- name: Write the backup environment file
+  ansible.builtin.template:
+    src: backup.env.j2
+    dest: "{{ backup_dir }}/.env"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: "0600"
+
+- name: Schedule the database backup
+  ansible.builtin.cron:
+    name: "{{ app_name }} database backup"
+    user: "{{ app_user }}"
+    hour: "{{ backup_db_hour }}"
+    minute: "{{ backup_db_minute }}"
+    job: "{{ backup_dir }}/backup_db.sh >> {{ backup_dir }}/logs/backup_db.log 2>&1"
+
+- name: Schedule the uploaded files backup
+  ansible.builtin.cron:
+    name: "{{ app_name }} files backup"
+    user: "{{ app_user }}"
+    hour: "{{ backup_files_hour }}"
+    minute: "{{ backup_files_minute }}"
+    job: "{{ backup_dir }}/backup_images.sh >> {{ backup_dir }}/logs/backup_images.log 2>&1"

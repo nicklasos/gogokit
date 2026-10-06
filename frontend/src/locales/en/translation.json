@@ -1,0 +1,292 @@
+{
+  "common": {
+    "appName": "Gogo Admin",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "actions": "Actions",
+    "back": "Back",
+    "english": "English",
+    "ukrainian": "Ukrainian",
+    "languageChanged": "Language changed",
+    "required": "Required",
+    "createdAt": "Created",
+    "yes": "Yes",
+    "no": "No",
+    "copied": "Copied to clipboard",
+    "search": "Search",
+    "notFound": "Not found",
+    "retry": "Try again",
+    "backHome": "Back to the dashboard"
+  },
+  "auth": {
+    "welcome": "Sign in to continue",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign in",
+    "logout": "Log out",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email",
+    "passwordRequired": "Password is required",
+    "invalidCredentials": "Invalid email or password",
+    "accessDenied": "Access denied",
+    "noPermission": "You don't have permission to open this page.",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Password reset",
+    "forgotPasswordHint": "Enter your email and we will send you a link to set a new password.",
+    "sendResetLink": "Send reset link",
+    "resetLinkSentTitle": "Check your inbox",
+    "resetLinkSent": "If that email belongs to an account, a link to reset the password is on its way.",
+    "backToLogin": "Back to sign in",
+    "resetPasswordTitle": "Choose a new password",
+    "setNewPassword": "Set new password",
+    "passwordResetDone": "Password updated. Sign in with the new one.",
+    "requestNewLink": "Request a new link",
+    "emailVerified": "Email confirmed",
+    "verifyEmailRetryHint": "You can request a new link from your profile.",
+    "continue": "Continue",
+    "tooManyAttempts": {
+      "minute": "Too many attempts. Try again in a minute.",
+      "minutes_one": "Too many attempts. Try again in {{count}} minute.",
+      "minutes_other": "Too many attempts. Try again in {{count}} minutes.",
+      "hours_one": "Too many attempts. Try again in {{count}} hour.",
+      "hours_other": "Too many attempts. Try again in {{count}} hours."
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "examples": "Examples",
+    "users": "Users",
+    "profile": "Profile",
+    "adminMenu": "Admin menu",
+    "superAdmins": "Super admins",
+    "admins": "Admins",
+    "files": "Files"
+  },
+  "enums": {
+    "role": {
+      "super-admin": "Super admin",
+      "admin": "Admin",
+      "user": "User"
+    },
+    "uploadType": {
+      "image": "Image",
+      "video": "Video",
+      "audio": "Audio",
+      "document": "Document",
+      "other": "Other"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {{name}}",
+    "subtitle": "Use the sidebar to manage examples."
+  },
+  "examples": {
+    "title": "Examples",
+    "add": "Add example",
+    "edit": "Edit example",
+    "create": "Create example",
+    "titleField": "Title",
+    "descriptionField": "Description",
+    "titleRequired": "Title is required",
+    "deleted": "Example deleted",
+    "saved": "Example saved",
+    "deleteConfirm": "Delete this example?",
+    "empty": "No examples yet",
+    "view": "View"
+  },
+  "userManagement": {
+    "byRole": {
+      "super-admin": {
+        "title": "Super admins",
+        "add": "Add super admin",
+        "edit": "Edit super admin"
+      },
+      "admin": {
+        "title": "Admins",
+        "add": "Add admin",
+        "edit": "Edit admin"
+      },
+      "user": {
+        "title": "Users",
+        "add": "Add user",
+        "edit": "Edit user"
+      }
+    },
+    "userName": "Name",
+    "userEmail": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "setPassword": "Set password",
+    "passwordTooShort": "At least 8 characters",
+    "roles": "Roles",
+    "empty": "No users yet",
+    "userCreated": "User created",
+    "userUpdated": "User updated",
+    "userDeleted": "User deleted",
+    "passwordUpdated": "Password updated",
+    "deleteConfirm": "Delete this user?",
+    "deleteConfirmDescription": "This cannot be undone."
+  },
+  "profile": {
+    "title": "Profile",
+    "personalInfo": "Personal information",
+    "name": "Name",
+    "language": "Language",
+    "updateProfile": "Update profile",
+    "profileUpdated": "Profile updated",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordChanged": "Password changed",
+    "emailNotVerified": "Your email is not confirmed",
+    "emailNotVerifiedHint": "We sent a confirmation link to {{email}}.",
+    "resendVerification": "Send again",
+    "verificationSent": "Confirmation email sent"
+  },
+  "messages": {
+    "unsavedChangesTitle": "Unsaved changes",
+    "unsavedChanges": "You have unsaved changes. Leave without saving?",
+    "unsavedChangesLeave": "Leave"
+  },
+  "errors": {
+    "fallback": "Something went wrong",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "bad_request": "Bad request",
+    "not_found": "Not found",
+    "internal_error": "Internal server error",
+    "auth.invalid_credentials": "Invalid email or password",
+    "auth.invalid_token": "Invalid or expired token",
+    "auth.token_required": "Authentication required",
+    "auth.user_not_found": "User not found",
+    "auth.user_exists": "A user with this email already exists",
+    "auth.invalid_current_password": "Current password is incorrect",
+    "users.not_found": "User not found",
+    "users.forbidden_role": "You cannot manage users with this role",
+    "users.cannot_delete_self": "You cannot delete yourself",
+    "examples.not_found": "Example not found",
+    "uploads.not_found": "File not found",
+    "validation.failed": "Validation failed",
+    "validation.required": "Required field",
+    "validation.email": "Invalid email",
+    "validation.min": "Value is too short or too small",
+    "validation.max": "Value is too long or too large",
+    "validation.oneof": "Value is not allowed",
+    "validation.invalid": "Invalid value",
+    "validation.type_mismatch": "Wrong value type",
+    "validation.body_invalid": "Invalid request",
+    "validation.title.required": "Title is required",
+    "network": "Could not reach the server. Check your connection and try again.",
+    "auth.too_many_requests": "Too many attempts. Try again later.",
+    "auth.registration_disabled": "Registration is disabled",
+    "auth.invalid_or_expired_link": "This link is invalid or has expired",
+    "auth.email_already_verified": "Your email is already confirmed",
+    "uploads.type_not_allowed": "This file type is not allowed",
+    "uploads.too_large": "The file is too large",
+    "uploads.empty": "The file is empty",
+    "validation.error": "Invalid request",
+    "crashTitle": "This page ran into a problem",
+    "crashHint": "The rest of the app still works. Try again, or reload the page.",
+    "reloadPage": "Reload page"
+  },
+  "uploads": {
+    "title": "Files",
+    "hint": "Images, documents, audio and video up to {{max}} MB.",
+    "upload": "Upload",
+    "uploaded": "File uploaded",
+    "deleted": "File deleted",
+    "deleteConfirm": "Delete this file?",
+    "empty": "No files yet",
+    "name": "Name",
+    "type": "Type",
+    "size": "Size",
+    "tooLarge": "The file is larger than {{max}} MB"
+  },
+  "editor": {
+    "placeholder": "Enter content",
+    "dialogControls": {
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "createLink": {
+      "url": "URL",
+      "urlPlaceholder": "Select or paste URL",
+      "title": "Title",
+      "saveTooltip": "Set URL",
+      "cancelTooltip": "Cancel change"
+    },
+    "linkPreview": {
+      "open": "Open {{url}} in new window",
+      "edit": "Edit link URL",
+      "copyToClipboard": "Copy to clipboard",
+      "copied": "Copied!",
+      "remove": "Remove link"
+    },
+    "toolbar": {
+      "blockTypes": {
+        "paragraph": "Paragraph",
+        "quote": "Quote",
+        "heading": "Heading {{level}}"
+      },
+      "blockTypeSelect": {
+        "selectBlockTypeTooltip": "Select block type",
+        "placeholder": "Block type"
+      },
+      "toggleGroup": "Toggle group",
+      "removeBold": "Remove bold",
+      "bold": "Bold",
+      "removeItalic": "Remove italic",
+      "italic": "Italic",
+      "underline": "Remove underline",
+      "removeUnderline": "Underline",
+      "removeInlineCode": "Remove code formatting",
+      "inlineCode": "Inline code format",
+      "link": "Create link",
+      "richText": "Rich text",
+      "diffMode": "Diff mode",
+      "source": "Source mode",
+      "admonition": "Insert admonition",
+      "codeBlock": "Insert code block",
+      "editFrontmatter": "Edit frontmatter",
+      "insertFrontmatter": "Insert frontmatter",
+      "image": "Insert image",
+      "insertSandpack": "Insert Sandpack",
+      "table": "Insert table",
+      "thematicBreak": "Insert thematic break",
+      "bulletedList": "Bulleted list",
+      "numberedList": "Numbered list",
+      "checkList": "Check list",
+      "deleteSandpack": "Delete this code block",
+      "undo": "Undo {{shortcut}}",
+      "redo": "Redo {{shortcut}}",
+      "highlight": "Highlight",
+      "removeHighlight": "Remove highlight"
+    },
+    "customLinks": {
+      "phone": {
+        "button": "Phone",
+        "tooltip": "Insert phone link",
+        "placeholder": "Enter phone number",
+        "submit": "Insert phone link"
+      },
+      "email": {
+        "button": "Email",
+        "tooltip": "Insert email link",
+        "placeholder": "Enter email address",
+        "submit": "Insert email link"
+      }
+    },
+    "contentArea": {
+      "editableMarkdown": "editable markdown"
+    },
+    "crashMessage": "The editor ran into a problem. You can retry without leaving the page.",
+    "crashRetry": "Retry"
+  }
+}
