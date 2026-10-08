@@ -40,6 +40,7 @@ Each folder has its own `AGENTS.md` (or README) with its conventions. Read the o
 make help            # everything below
 make sync            # refresh backend/, frontend/, backup/ from their source repositories
 make up              # local Postgres, Redis and Mailpit
+make cli migrate up  # a console command; flags go after -- (make cli -- create-user --email a@b.c --password secret123)
 make test            # backend tests, then frontend typecheck, lint, unit and Playwright
 make provision       # set up a new server (see deploy/README.md)
 make deploy          # release the current code to the server

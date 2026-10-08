@@ -1,3 +1,16 @@
+# Words after `cli` are the console command, not Make targets. Flags start
+# with a dash, so they go after `--`:
+#   make cli migrate up
+#   make cli -- create-user --email admin@example.com --password password123
+ifeq ($(firstword $(MAKECMDGOALS)),cli)
+  CLI_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(foreach arg,$(CLI_ARGS),$(eval $(arg):;@:))
+
+.PHONY: cli
+cli: ## Run a console command (make cli migrate up)
+	$(MAKE) -C backend cli CLI_ARGS='$(CLI_ARGS)'
+else
+
 .PHONY: help sync up down seed test test-backend test-frontend deploy-setup provision deploy
 
 help: ## Show available commands
@@ -33,3 +46,5 @@ deploy: ## Release the current code to the server
 	cd deploy && ansible-playbook deploy.yml
 
 .DEFAULT_GOAL := help
+
+endif
