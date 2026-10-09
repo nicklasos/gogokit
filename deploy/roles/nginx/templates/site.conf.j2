@@ -22,6 +22,16 @@
     more_clear_headers Server;
 {% endif %}
     client_max_body_size {{ nginx_client_max_body_size }};
+{% if tls_mode == 'cloudflare' and cloudflare_real_ip | default(true) | bool %}
+
+    # Behind Cloudflare every request arrives from a Cloudflare address. This restores the
+    # visitor's address, which the login rate limiter and the logs depend on. Per server, so it
+    # cannot clash with a real_ip_header another site on the machine declares.
+{% for range in cloudflare_ips %}
+    set_real_ip_from {{ range }};
+{% endfor %}
+    real_ip_header CF-Connecting-IP;
+{% endif %}
 {% endmacro %}
 {% macro listen() %}
 {% if tls %}
@@ -60,15 +70,6 @@
         proxy_buffers 4 256k;
         proxy_busy_buffers_size 256k;
 {% endmacro %}
-{% if tls_mode == 'cloudflare' %}
-
-# Behind Cloudflare every request arrives from a Cloudflare address. This restores the
-# visitor's address, which the login rate limiter and the logs depend on.
-{% for range in cloudflare_ips %}
-set_real_ip_from {{ range }};
-{% endfor %}
-real_ip_header CF-Connecting-IP;
-{% endif %}
 {% if tls %}
 
 server {

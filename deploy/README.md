@@ -6,6 +6,9 @@ Ansible playbooks that turn a fresh Ubuntu server into a running deployment, and
 |---|---|
 | `provision.yml` | Everything, from an empty server: packages, firewall, PostgreSQL, Redis, Go, Node.js, the application, nginx, TLS, backups. Safe to run again. |
 | `deploy.yml` | Releases new code: pull, build, migrate, restart, health check. |
+| `install.yml` | Adds the application to a server that already has everything. Installs no packages. |
+
+A server that already runs other applications gets `install.yml` instead: see [On a server that already has everything](#on-a-server-that-already-has-everything).
 
 > These playbooks pass Ansible's syntax check and the nginx configuration they generate has been
 > validated with `nginx -t` for every TLS mode. They have **not yet been run against a real server**.
@@ -62,7 +65,7 @@ Two things the first run will tell you about:
 Push to `repo_branch`, then:
 
 ```bash
-ansible-playbook deploy.yml
+ansible-playbook deploy.yml        # or, from the project root: make deploy-remote
 ```
 
 It rebuilds only what changed, applies new migrations, restarts the API and waits for `/health` to answer. If the API does not come back healthy, the play fails and says so.
@@ -108,6 +111,39 @@ sudo -u deploy /var/www/<app>/backup/backup_db.sh   # a backup right now
 ```
 
 The monitoring dashboard is at `https://<domain>/_pulse` (user `admin`, password `pulse_password`).
+
+## On a server that already has everything
+
+For a server that already runs other applications, with Go, Node.js, nginx, PostgreSQL, Redis and
+supervisor installed. `provision.yml` is not for it: it installs packages and a firewall, replaces
+nginx's default site and creates its own database and user. `install.yml` only adds this application:
+clone into `/var/www/<app>` (no `repo/` folder and links), the two `.env` files, build, migrations,
+one supervisor program and one nginx site.
+
+Create the database yourself first. Then, on your machine:
+
+```bash
+cd deploy
+cp inventory/hosts.example.yml inventory/hosts.yml          # address, and domain / api_port / tls_mode for this host
+cp secrets.example.yml group_vars/all/secrets.yml           # jwt_secret and install_database_url
+ansible-playbook install.yml                                # or, from the project root: make install-remote
+```
+
+- The API runs as `www-data` (`install_user`) and runs the scheduled jobs itself (`ENABLE_SCHEDULER=true`); there is no cron program.
+- `tls_mode` is `cloudflare` or `none`: the site listens on port 80 and certificates are not handled.
+- `install_nginx: print` shows the nginx site instead of writing it, to paste into a file nginx already loads, such as `sites-enabled/default`. Add `cloudflare_real_ip: false` when that file already has the `set_real_ip_from` lines.
+- root clones the repository, so root on the server needs access to it.
+- If the build cannot find `go` or `npm`, add their folder: `-e install_extra_path=/path/to/bin`.
+
+Every release after that, on the server:
+
+```bash
+cd /var/www/<app> && make deploy
+```
+
+It pulls, builds the API and the CLI, applies new migrations, builds the panel and restarts `<app>-api`.
+
+The same steps as commands to run yourself, without Ansible, are in [MANUAL_INSTALL.md](MANUAL_INSTALL.md).
 
 ## What is not handled
 

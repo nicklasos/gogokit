@@ -11,7 +11,7 @@ cli: ## Run a console command (make cli migrate up)
 	$(MAKE) -C backend cli CLI_ARGS='$(CLI_ARGS)'
 else
 
-.PHONY: help sync up down seed test test-backend test-frontend deploy-setup provision deploy
+.PHONY: help sync up down seed test test-backend test-frontend deploy-setup provision install-remote deploy-remote deploy
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
@@ -42,8 +42,22 @@ deploy-setup: ## Install the Ansible collections the playbooks need
 provision: ## Set up a new server and deploy to it
 	cd deploy && ansible-playbook provision.yml
 
-deploy: ## Release the current code to the server
+install-remote: ## Add the application to a server that already has Go, nginx, Postgres (deploy/README.md)
+	cd deploy && ansible-playbook install.yml
+
+deploy-remote: ## Release the current code to the server with Ansible, from your machine
 	cd deploy && ansible-playbook deploy.yml
+
+# For a server set up with install.yml or by hand (deploy/MANUAL_INSTALL.md). The program name is the one
+# in /etc/supervisor/conf.d: make deploy SUPERVISOR_PROGRAM=other-api. Empty skips the restart.
+SUPERVISOR_PROGRAM ?= myapp-api
+
+deploy: ## Run on the server: pull, build, migrate, restart
+	git pull --ff-only
+	cd backend && go build -o bin/api ./cmd/api && go build -o bin/gogo-cli ./cmd/cli
+	cd backend && ./bin/gogo-cli migrate up
+	cd frontend && npm ci --no-audit --no-fund && npm run build
+	@if [ -n "$(SUPERVISOR_PROGRAM)" ]; then sudo supervisorctl restart $(SUPERVISOR_PROGRAM); fi
 
 .DEFAULT_GOAL := help
 

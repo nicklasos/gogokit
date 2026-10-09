@@ -9,7 +9,7 @@ A full-stack starter in one repository: a Go API, a React admin panel, backups a
 | `backend/` | Go API: Gin, PostgreSQL through sqlc, Redis, JWT auth with roles | [gogo](https://github.com/nicklasos/gogo) |
 | `frontend/` | Admin panel: React, TypeScript, Ant Design, TanStack Query | [gogo-front](https://github.com/nicklasos/gogo-front) |
 | `backup/` | Shell scripts that back up the database and uploaded files | [backupit](https://github.com/nicklasos/backupit) |
-| `deploy/` | Ansible: provision a server, deploy and update the application | this repository |
+| `deploy/` | Ansible: provision a server or install on an existing one, deploy and update the application | this repository |
 
 Each folder has its own `AGENTS.md` (or README) with its conventions. Read the one for the folder you are working in.
 
@@ -43,7 +43,9 @@ make up              # local Postgres, Redis and Mailpit
 make cli migrate up  # a console command; flags go after -- (make cli -- create-user --email a@b.c --password secret123)
 make test            # backend tests, then frontend typecheck, lint, unit and Playwright
 make provision       # set up a new server (see deploy/README.md)
-make deploy          # release the current code to the server
+make install-remote  # add the app to a server that already has everything (deploy/install.yml)
+make deploy-remote   # release the current code to the server with Ansible
+make deploy          # run on the server (install.yml or by hand): pull, build, migrate, restart
 ```
 
 ## Rules

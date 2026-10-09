@@ -38,7 +38,7 @@ Four folders, one repository:
 | [`backend/`](backend) | Go API: Gin, PostgreSQL through sqlc, Redis, JWT auth with roles |
 | [`frontend/`](frontend) | Admin panel: React, TypeScript, Ant Design, TanStack Query |
 | [`backup/`](backup) | Scripts that back up the database and uploaded files to disk or Google Cloud Storage |
-| [`deploy/`](deploy) | Ansible that provisions a server and deploys the three above |
+| [`deploy/`](deploy) | Ansible that provisions a server, or installs on an existing one, and deploys the three above |
 
 It is a skeleton, not a framework: there is no ORM and no code you cannot read. You copy it, rename it and start adding modules.
 
@@ -144,8 +144,23 @@ directories, builds the API and the admin panel, obtains a certificate, and sche
 To release new code afterwards:
 
 ```bash
-ansible-playbook deploy.yml
+ansible-playbook deploy.yml                              # or, from the root: make deploy-remote
 ```
+
+### A server that already runs other things
+
+When Go, Node.js, nginx, PostgreSQL, Redis and supervisor are already there, `install.yml` adds only
+this application: the checkout in `/var/www/<app>`, the two `.env` files, one supervisor program and
+one nginx site. It installs no packages. Create the database, put its URL in `secrets.yml` as
+`install_database_url`, then:
+
+```bash
+ansible-playbook install.yml                             # or, from the root: make install-remote
+```
+
+Releases on such a server are run on it: `cd /var/www/<app> && make deploy` pulls, builds, migrates
+and restarts the API. The same install as commands to type yourself is in
+[deploy/MANUAL_INSTALL.md](deploy/MANUAL_INSTALL.md), with ready files in [deploy/examples](deploy/examples).
 
 Everything about it, including the three TLS modes and what ends up where on the server, is in
 [deploy/README.md](deploy/README.md).
@@ -156,7 +171,8 @@ Everything about it, including the three TLS modes and what ends up where on the
 ## Start a project from it
 
 1. Copy this repository into a new one (GitHub's "Use this template", or clone and change the remote).
-2. In `deploy/group_vars/all/main.yml` set `app_name`, `domain` and `repo_url`.
+2. In `deploy/group_vars/all/main.yml` set `app_name`, `domain` and `repo_url`. Use the same name in
+   `SUPERVISOR_PROGRAM` of the root `Makefile` (`<app_name>-api`) and in `deploy/examples/`.
 3. Rename what users see: `APP_NAME` in `backend/.env`, `common.appName` in the two files under
    `frontend/src/locales`, and the logo in `frontend/public/favicon.svg`.
 4. Build your first module with the recipes: `backend/docs/recipes/add-module.md`, then
@@ -186,4 +202,5 @@ directly in those three folders of the kit are overwritten by the next sync, so 
 - [frontend/README.md](frontend/README.md): structure, commands, conventions
 - [backup/README.md](backup/README.md): storage backends, restore
 - [deploy/README.md](deploy/README.md): provisioning and releasing
+- [deploy/MANUAL_INSTALL.md](deploy/MANUAL_INSTALL.md): installing by hand on a server you already have
 - [AGENTS.md](AGENTS.md): the guide for coding agents
