@@ -95,7 +95,7 @@ Run the tests with `make test`; it migrates the test database first.
 - **User management**: super admins manage super admins and admins, admins manage users
 - **Mail**: SMTP service (`app.Mail`), logged instead of sent in debug mode, with an in-memory sender for tests
 - **Policies**: who may do what to a record, one small `policy.go` per module
-- **Factories and seed data**: `factory.User(t, tx, factory.WithRoles("admin"))` in tests, `make seed` for a development database
+- **Factories and seed data**: `app.Create.User(factory.Admin())` in tests, `make seed` for a development database
 - **Agent recipes**: step-by-step procedures in `docs/recipes/` for the common changes, also available as Claude Code skills
 - **Transactions**: `app.Tx.WithTx(ctx, func(q *db.Queries) error { ... })`
 - **Request ID**: `X-Request-ID` on every response and in every `*Context` log line
@@ -289,7 +289,7 @@ err := s.mail.Send(ctx, mail.Message{
 - Configure SMTP with the `MAIL_*` variables. `MAIL_SCHEME` is `smtp` (STARTTLS, default), `smtps` (implicit TLS) or `none` (plain, for local catchers such as Mailpit).
 - With `APP_DEBUG=true`, `Send` only logs the recipient and subject. Nothing leaves the machine.
 - `make cli -- mail -to you@example.com` sends a real test email, even in debug mode. `make cli-mail TO=you@example.com` is the same command.
-- In tests, `CreateTestServer` wires a `mail.MemorySender`; assert on `server.Mail.Sent()`.
+- In tests, `testkit.New` wires a `mail.MemorySender`; assert on `app.Mail.Sent()`.
 
 ## Uploads Module
 

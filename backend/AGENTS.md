@@ -109,7 +109,7 @@ When adding new modules:
 - `internal/example/policy.go` and `internal/users/policy.go` are the references; `tests/unit/policy_test.go` shows how to test one.
 
 ## Factories and seed data
-- `internal/factory` creates records with defaults: `factory.User(t, tx)`, `factory.User(t, tx, factory.WithRoles("admin"), factory.Unverified())`, `factory.Example(t, tx, user.ID, factory.WithTitle("..."))`, `factory.Examples(t, tx, user.ID, 25, "Sample")`, `factory.Upload(t, tx, user.ID)`.
+- `internal/factory` creates records with defaults. In a test it is `app.Create`: `app.Create.User()`, `app.Create.User(factory.Admin(), factory.Unverified())`, `app.Create.Example(user.ID, factory.WithTitle("..."))`, `app.Create.Examples(user.ID, 25, "Sample")`, `app.Create.Upload(user.ID)`. Elsewhere: `factory.New(t, conn)`.
 - Every new table gets a factory. Tests never write `INSERT` statements by hand.
 - Users from a factory have the password `factory.DefaultPassword` and a verified email unless `factory.Unverified()` is passed.
 - `make seed` fills an empty development database through the same factories (`cmd/cli/internal/commands/seed.go`); add a new module's sample data there.
@@ -147,7 +147,7 @@ In tests the runner is built on the test transaction, so `WithTx` becomes a save
 ## Mail
 - Services take a `mail.Sender` (from `app.Mail`) and call `Send(ctx, mail.Message{To, Subject, Text, HTML})`.
 - `Send` only logs when `APP_DEBUG=true`; `mail.Service.SendLive` always dials SMTP (used by `make cli-mail TO=...`).
-- Tests get a `mail.MemorySender` from `CreateTestServer`; assert on `server.Mail.Sent()`. Never dial SMTP from a test.
+- Tests get a `mail.MemorySender` from `testkit.New`; assert on `app.Mail.Sent()`. Never dial SMTP from a test.
 - Send after the database work has committed, not inside `WithTx`.
 
 ## Context Patterns
@@ -242,27 +242,39 @@ make up / make down   # Postgres, Redis and Mailpit in Docker
 - **Test Database Separation** - Uses `TEST_DATABASE_URL` environment variable
 - **Test Database Guard** - `config.AssertTestDatabaseURL` refuses any database whose name does not end in `_test`, or a non-local host unless `ALLOW_REMOTE_TEST_DB=1`. It also guards `--test-db` and `--test`.
 - **One transaction per test** - a failed statement (for example a unique violation) aborts it, so make that request the last one in the test
-- **Same wiring as production** - `CreateTestServer` uses `server.NewEngine` and `server.RegisterRoutes`
+- **Same wiring as production** - the test server uses `server.NewEngine` and `server.RegisterRoutes`, and starts on the first request
 - **MemoryCache** - Tests use in-memory cache (no Redis required)
-- **MemorySender** - Tests collect mail in memory (`server.Mail.Sent()`)
-- **GenerateTestJWT** - Helper for authenticated integration requests
-- **Factories** - `internal/factory` builds every record a test needs; `helpers.Actor(user)` turns a user into the actor a service expects
+- **MemorySender** - Tests collect mail in memory (`app.Mail.Sent()`)
 
 ### Test Patterns
+Every test starts from `testkit.New(t)` (`tests/testkit`). `tests/README.md` is the cheat sheet: requests, response assertions, database assertions, factories.
+
 ```go
-func TestServiceMethod(t *testing.T) {
-    helpers.WithTransaction(t, func(ctx context.Context, tx pgx.Tx, queries *db.Queries) {
-        user := factory.User(t, tx)
-        example := factory.Example(t, tx, user.ID)
+func TestExampleAPI_GetExample(t *testing.T) {
+    app := testkit.New(t)
+    user := app.Create.User()
+    record := app.Create.Example(user.ID)
 
-        service := NewService(queries, nil)
-        result, err := service.Method(ctx, example.ID)
+    app.As(user).GET("/api/v1/examples/%d", record.ID).
+        AssertOK().
+        AssertJSONPath("data.title", record.Title)
+    app.GET("/api/v1/examples/%d", record.ID).AssertUnauthorized()
+}
 
-        require.NoError(t, err)
-        assert.Equal(t, expected, result)
-    })
+func TestExampleService_GetExample(t *testing.T) {
+    app := testkit.New(t)
+    user := app.Create.User()
+    record := app.Create.Example(user.ID)
+
+    result, err := example.NewExampleService(app.Queries, nil).GetExample(app.Ctx, testkit.Actor(user), record.ID)
+
+    require.NoError(t, err)
+    assert.Equal(t, record.ID, result.ID)
 }
 ```
+
+- Assert responses with the `Assert*` methods and rows with `app.AssertDatabaseHas/Missing/Count`; decode with `.JSON(&v)` only when the typed struct is needed.
+- No `// Setup`, `// Test`, `// Assert` comments, no hand-written `INSERT`, no per-test server or `defer`.
 
 ## What We DON'T Use
 - NO Repository Pattern - Services use sqlc directly
