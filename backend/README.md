@@ -323,7 +323,7 @@ Follow [docs/recipes/add-module.md](docs/recipes/add-module.md). In short:
 3. Generate code: `make sqlc`
 4. Create module: `internal/module/{types,policy,service,handler,routes}.go`
 5. Add `module.RegisterRoutes(app)` to `internal/server/server.go` (used by the API and the test server)
-6. Add a factory in `internal/factory` and tests
+6. Add a `Factory*` query to `internal/db/queries/factory.sql`, a factory in `internal/factory` that calls it, and tests
 
 ## Docker
 
