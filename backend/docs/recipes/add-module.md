@@ -46,8 +46,10 @@ Add `orders.RegisterRoutes(app)` to `internal/server/server.go`. The API and the
 
 ## 4. Factory and seed data
 
-1. `internal/factory/order.go`: `func (f *Factory) Order(userID int32, opts ...OrderOption) *db.Order` with defaults for every column (`tests/README.md` has the template).
-2. Add a few records to `cmd/cli/internal/commands/seed.go`.
+1. A `FactoryCreateOrder :one` query in `internal/db/queries/factory.sql`, `RETURNING *`, then `make sqlc`.
+2. `internal/factory/order.go`: `func (f *Factory) Order(userID int32, opts ...OrderOption) *db.Order`, with defaults
+   for every column, calling that query (`tests/README.md` has the template).
+3. Add a few records to `cmd/cli/internal/commands/seed.go`.
 
 ## 5. Tests
 

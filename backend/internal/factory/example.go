@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"app/internal/db"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type exampleAttrs struct {
@@ -30,12 +32,11 @@ func (f *Factory) Example(userID int32, opts ...ExampleOption) *db.Example {
 		opt(&attrs)
 	}
 
-	var example db.Example
-	err := f.conn.QueryRow(ctx,
-		`INSERT INTO examples (user_id, title, description) VALUES ($1, $2, $3)
-		 RETURNING id, user_id, title, description, created_at, updated_at`,
-		userID, attrs.title, attrs.description,
-	).Scan(&example.ID, &example.UserID, &example.Title, &example.Description, &example.CreatedAt, &example.UpdatedAt)
+	example, err := f.queries.FactoryCreateExample(ctx, db.FactoryCreateExampleParams{
+		UserID:      userID,
+		Title:       attrs.title,
+		Description: pgtype.Text{String: attrs.description, Valid: true},
+	})
 	if err != nil {
 		f.t.Fatalf("factory.Example: %v", err)
 	}

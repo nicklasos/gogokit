@@ -100,11 +100,22 @@ Every `Assert` stops the test on failure, prints the response body, and returns 
 | `app.Create.Examples(userID, count, prefix)` | |
 | `app.Create.Upload(userID)` | |
 
-A user has the password `factory.DefaultPassword`. Tests never write `INSERT` by hand: a new table gets a factory.
+A user has the password `factory.DefaultPassword`. Tests never write `INSERT` by hand, and neither
+does a factory: every factory writes through a `Factory*` query in `internal/db/queries/factory.sql`,
+the same as application code goes through its own module's queries.
 
 ## Adding a factory
 
-One file in `internal/factory`, copied from `example.go`:
+A query in `internal/db/queries/factory.sql`, named `Factory<Thing>`, `RETURNING *` so it returns
+the generated `db.X` struct directly, then `make sqlc`:
+
+```sql
+-- name: FactoryCreateOrder :one
+INSERT INTO orders (user_id, status) VALUES (sqlc.arg(user_id), sqlc.arg(status))
+RETURNING *;
+```
+
+One file in `internal/factory`, shaped like `example.go`:
 
 ```go
 type orderAttrs struct {
@@ -123,11 +134,10 @@ func (f *Factory) Order(userID int32, opts ...OrderOption) *db.Order {
         opt(&attrs)
     }
 
-    var order db.Order
-    err := f.conn.QueryRow(ctx,
-        `INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING id, user_id, status, created_at`,
-        userID, attrs.status,
-    ).Scan(&order.ID, &order.UserID, &order.Status, &order.CreatedAt)
+    order, err := f.queries.FactoryCreateOrder(ctx, db.FactoryCreateOrderParams{
+        UserID: userID,
+        Status: attrs.status,
+    })
     if err != nil {
         f.t.Fatalf("factory.Order: %v", err)
     }

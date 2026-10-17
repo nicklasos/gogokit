@@ -17,7 +17,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/jackc/pgx/v5"
+	"app/internal/db"
 )
 
 // DefaultPassword is the password of every user a factory creates, unless WithPassword is used.
@@ -29,19 +29,15 @@ type TB interface {
 	Fatalf(format string, args ...any)
 }
 
-// DB is satisfied by a transaction (tests) and by a connection pool (seeding).
-type DB interface {
-	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
-}
-
 // Factory creates records on one connection and reports failures to one TB.
 type Factory struct {
-	t    TB
-	conn DB
+	t       TB
+	queries *db.Queries
 }
 
-func New(t TB, conn DB) *Factory {
-	return &Factory{t: t, conn: conn}
+// New takes a transaction (tests) or a connection pool (seeding).
+func New(t TB, conn db.DBTX) *Factory {
+	return &Factory{t: t, queries: db.New(conn)}
 }
 
 var sequence atomic.Int64

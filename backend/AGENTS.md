@@ -37,7 +37,7 @@ gogo/
 │   ├── health/                  # /health and /api/v1/health
 │   ├── db/
 │   │   ├── tx.go                # TxRunner.WithTx transaction helper
-│   │   └── queries/             # SQL queries (incl. technical Healthcheck)
+│   │   └── queries/             # SQL queries (incl. technical Healthcheck, factory.sql for internal/factory)
 │   ├── middleware/
 │   │   ├── user_auth.go         # JWT authentication, loads roles from DB
 │   │   ├── require_role.go      # Roles + RequireRole / RequireAnyRole
@@ -54,6 +54,10 @@ gogo/
 ├── migrations/                  # Goose database migrations
 └── Makefile                     # Development commands (make help)
 ```
+
+### Database access
+- Every query against the app's database goes through sqlc, in `internal/db/queries`, factories included. A schema change then breaks `make sqlc` and the build, not a test at runtime.
+- Hand-written SQL lives only in `internal/db` and `tests/testkit/database.go` (the generic `AssertDatabase*` helpers), plus `*_test.go` files that set up a state the app's queries cannot reach. `tests/unit/raw_sql_test.go` fails on any other `Query`, `QueryRow` or `Exec` call.
 
 ### Layer Responsibilities
 - **Routes**: Dependency injection, receives `*internal.App` and creates services/handlers with specific dependencies
@@ -110,7 +114,7 @@ When adding new modules:
 
 ## Factories and seed data
 - `internal/factory` creates records with defaults. In a test it is `app.Create`: `app.Create.User()`, `app.Create.User(factory.Admin(), factory.Unverified())`, `app.Create.Example(user.ID, factory.WithTitle("..."))`, `app.Create.Examples(user.ID, 25, "Sample")`, `app.Create.Upload(user.ID)`. Elsewhere: `factory.New(t, conn)`.
-- Every new table gets a factory. Tests never write `INSERT` statements by hand.
+- Every new table gets a factory. Factories write through the `Factory*` queries in `internal/db/queries/factory.sql`; tests still never write `INSERT` statements by hand.
 - Users from a factory have the password `factory.DefaultPassword` and a verified email unless `factory.Unverified()` is passed.
 - `make seed` fills an empty development database through the same factories (`cmd/cli/internal/commands/seed.go`); add a new module's sample data there.
 
