@@ -30,7 +30,7 @@
     "low": 60,
     "break": null
   },
-  "concurrency": 4,
+  "concurrency": 2,
   "incremental": true,
   "tempDirName": ".stryker-tmp"
 }
