@@ -106,9 +106,14 @@ make lint         # typecheck + eslint
 make test-unit    # node:test
 make test-e2e     # Playwright: starts gogo --test-db on 8184 and Vite on 5175
 make test         # all of the above
+make test-mutation # Stryker: do the unit tests catch small changes? (docs/mutation-testing.md; slow, not part of make test)
 make api-types    # regenerate src/api/schema.ts from ../backend/docs/swagger.json
 make build
 ```
+
+## Mutation testing
+- `make test-mutation` runs Stryker over the modules listed in `stryker.config.json` `mutate`; the report is `reports/mutation/mutation.html`.
+- A survived mutant is a missing assertion. When you add a unit test for a module, add the module to `mutate`. See `docs/mutation-testing.md`.
 
 ## E2E notes
 - `tests/e2e/shared-session/`: specs that share one signed-in plain user (`auth.setup.ts` writes `.auth/user.json`).

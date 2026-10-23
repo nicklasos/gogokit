@@ -28,3 +28,7 @@ dist-ssr
 playwright-report
 test-results
 tests/e2e/.auth/
+
+# Stryker mutation testing
+reports
+.stryker-tmp

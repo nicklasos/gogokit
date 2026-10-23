@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "api:types": "swagger-typescript-api generate --no-client --silent --sort-types --enum-style=union -p ../backend/docs/swagger.json -o src/api -n schema.ts",
     "test:unit": "node --import tsx --test 'src/**/*.test.ts'",
+    "test:mutation": "stryker run",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
@@ -34,6 +35,7 @@
   "devDependencies": {
     "@eslint/js": "^9.30.1",
     "@playwright/test": "^1.54.1",
+    "@stryker-mutator/core": "10.0.0",
     "@types/node": "^22.20.5",
     "@types/pg": "^8.23.1",
     "@types/react": "^19.1.8",

@@ -42,6 +42,8 @@ make sync            # refresh backend/, frontend/, backup/ from their source re
 make up              # local Postgres, Redis and Mailpit
 make cli migrate up  # a console command; flags go after -- (make cli -- create-user --email a@b.c --password secret123)
 make test            # backend tests, then frontend typecheck, lint, unit and Playwright
+make mutation-backend   # Gremlins on backend code changed since origin/main (slow, by hand, not in CI)
+make mutation-frontend  # Stryker on the frontend's unit-tested modules (slow, by hand, not in CI)
 make provision       # set up a new server (see deploy/README.md)
 make install-remote  # add the app to a server that already has everything (deploy/install.yml)
 make deploy-remote   # release the current code to the server with Ansible

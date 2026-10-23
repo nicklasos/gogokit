@@ -107,6 +107,7 @@ make lint            # typecheck + eslint
 make test-unit       # node:test
 make test-e2e        # Playwright (starts gogo --test-db + Vite on the E2E ports)
 make test            # everything
+make test-mutation   # Stryker mutation tests of the unit-tested modules (docs/mutation-testing.md)
 make build
 make api-types       # regenerate src/api/schema.ts from ../backend/docs/swagger.json
 make api-types-check # fail if it is out of date (CI runs this)

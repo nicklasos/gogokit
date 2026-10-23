@@ -61,6 +61,7 @@ It is a skeleton, not a framework: there is no ORM and no code you cannot read. 
 - Server validation errors shown under the right form field; English and Ukrainian
 - Tables become cards on phones; a page that crashes does not take the app down
 - Playwright tests that run against the real API
+- Mutation testing to check the tests catch bugs: [Gremlins](https://gremlins.dev) for the API, [Stryker](https://stryker-mutator.io) for the panel
 
 **Monitoring**
 - A dashboard served by the API itself ([gopulse](https://github.com/nicklasos/gopulse)): requests per route, errors and panics, SQL statistics by query name, logs, server load
@@ -124,7 +125,9 @@ Sign in at http://localhost:5173 with `admin@example.com` / `password123`.
 | Monitoring | http://localhost:8181/_pulse (set `PULSE_PASSWORD` in `backend/.env` first) |
 | Caught emails | http://localhost:8025 |
 
-Run every test in the kit with `make test` from the root.
+Run every test in the kit with `make test` from the root. Mutation tests are slow and run by hand: `make mutation-backend` covers the backend code you changed
+([backend/tests/README.md](backend/tests/README.md#mutation-testing)), `make mutation-frontend` the frontend's
+unit-tested modules ([frontend/docs/mutation-testing.md](frontend/docs/mutation-testing.md)).
 
 ## Deploy to a new server
 

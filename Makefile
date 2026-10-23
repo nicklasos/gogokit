@@ -11,7 +11,7 @@ cli: ## Run a console command (make cli migrate up)
 	$(MAKE) -C backend cli CLI_ARGS='$(CLI_ARGS)'
 else
 
-.PHONY: help sync up down seed test test-backend test-frontend deploy-setup provision install-remote deploy-remote deploy
+.PHONY: help sync up down seed test test-backend test-frontend mutation-backend mutation-frontend deploy-setup provision install-remote deploy-remote deploy
 
 help: ## Show available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-16s %s\n", $$1, $$2}'
@@ -35,6 +35,12 @@ test-backend: ## Go unit and integration tests
 
 test-frontend: ## Typecheck, lint, unit tests and Playwright
 	$(MAKE) -C frontend test
+
+mutation-backend: ## Gremlins mutation tests on backend code changed since origin/main (slow, run by hand)
+	$(MAKE) -C backend mutation-diff
+
+mutation-frontend: ## Stryker mutation tests of the frontend's unit-tested modules (slow, run by hand)
+	$(MAKE) -C frontend test-mutation
 
 deploy-setup: ## Install the Ansible collections the playbooks need
 	cd deploy && ansible-galaxy collection install -r requirements.yml

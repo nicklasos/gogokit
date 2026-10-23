@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "testRunner": "command",
+  "commandRunner": {
+    "command": "npm run test:unit"
+  },
+  "mutate": [
+    "src/api/url.ts",
+    "src/auth/retryAfter.ts",
+    "src/auth/roles.ts",
+    "src/layout/navMatch.ts",
+    "src/features/*/policy.ts",
+    "src/shared/utils/format.ts",
+    "src/shared/utils/formErrors.ts",
+    "src/shared/utils/markdownLinks.ts",
+    "src/shared/utils/serverErrors.ts",
+    "src/shared/components/markdown/editorSupport.ts",
+    "src/shared/lib/unsavedChanges/confirmUnsavedNavigation.ts",
+    "!src/**/*.test.ts"
+  ],
+  "reporters": ["html", "json", "clear-text", "progress"],
+  "htmlReporter": {
+    "fileName": "reports/mutation/mutation.html"
+  },
+  "jsonReporter": {
+    "fileName": "reports/mutation/mutation.json"
+  },
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": null
+  },
+  "concurrency": 4,
+  "incremental": true,
+  "tempDirName": ".stryker-tmp"
+}

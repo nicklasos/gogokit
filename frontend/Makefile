@@ -1,4 +1,4 @@
-.PHONY: help install dev build preview api-types api-types-check typecheck lint lint-fix test test-unit test-e2e test-e2e-ui test-e2e-headed clean playwright-browsers env-check db-test-setup
+.PHONY: help install dev build preview api-types api-types-check typecheck lint lint-fix test test-unit test-mutation test-e2e test-e2e-ui test-e2e-headed clean playwright-browsers env-check db-test-setup
 
 help: ## Show available commands
 	@echo "Gogo Front - Available Commands:"
@@ -36,6 +36,9 @@ test: lint test-unit test-e2e ## Everything: typecheck, lint, unit, E2E
 
 test-unit: ## Run unit tests (node:test)
 	npm run test:unit
+
+test-mutation: ## Stryker mutation tests of the unit-tested modules (report: reports/mutation/mutation.html)
+	npm run test:mutation
 
 test-e2e: ## Playwright E2E (starts gogo with --test-db and Vite on the E2E ports)
 	npx playwright test

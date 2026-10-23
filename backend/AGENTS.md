@@ -211,6 +211,7 @@ make run              # Start server
 make run-test-db      # Start against TEST_DATABASE_URL
 make build            # Build binary
 make test             # Run all tests (auto-migrates test DB)
+make mutation-diff    # Mutation tests (gremlins) on code changed since origin/main; see tests/README.md
 make seed             # Accounts and sample data for an empty development database
 make cli migrate up   # Any console command; flags go after -- (make cli -- create-user --email a@b.c --password secret123)
 make cli-create-user EMAIL=a@b.c PASSWORD=secret123   # Create a user (default role super-admin)
@@ -249,6 +250,7 @@ make up / make down   # Postgres, Redis and Mailpit in Docker
 - **Same wiring as production** - the test server uses `server.NewEngine` and `server.RegisterRoutes`, and starts on the first request
 - **MemoryCache** - Tests use in-memory cache (no Redis required)
 - **MemorySender** - Tests collect mail in memory (`app.Mail.Sent()`)
+- **Mutation testing** - `make mutation-diff` (Gremlins) checks that the tests catch small changes to the code you touched; a `LIVED` mutant is a missing assertion. `tests/README.md` explains the output
 
 ### Test Patterns
 Every test starts from `testkit.New(t)` (`tests/testkit`). `tests/README.md` is the cheat sheet: requests, response assertions, database assertions, factories.
