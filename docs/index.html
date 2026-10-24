@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gogokit: a Go API, a React admin panel, and a server to run them on</title>
+<meta name="description" content="A full-stack starter kit: Go API, React admin panel, monitoring, backups and Ansible deployment. A skeleton you copy and own, written to be easy for coding agents to extend.">
+<meta property="og:title" content="Gogokit">
+<meta property="og:description" content="A Go API, a React admin panel, and a server to run them on. A full-stack starter you copy and own.">
+<meta property="og:image" content="https://nicklasos.github.io/gogokit/images/admins.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#101010">
+<link rel="icon" href="images/logo.jpg">
+<style>
+  :root {
+    --bg: #101010;
+    --bg-raised: #181818;
+    --bg-code: #0a0a0a;
+    --line: #2a2a28;
+    --text: #f3efe6;
+    --muted: #a8a399;
+    --faint: #77736b;
+    --accent: #5cc8e6;
+    --accent-ink: #06222b;
+    --radius: 12px;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 88px 0; border-top: 1px solid var(--line); }
+
+  h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; margin: 0; font-weight: 650; }
+  h1 { font-size: clamp(2.3rem, 5.4vw, 4rem); max-width: 16ch; }
+  h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); max-width: 22ch; }
+  h3 { font-size: 1.1rem; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  .lead { color: var(--muted); font-size: 1.2rem; max-width: 60ch; margin-top: 20px; }
+  .section-intro { color: var(--muted); max-width: 62ch; margin-top: 16px; }
+  .eyebrow { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
+  code, .mono { font-family: var(--mono); font-size: 0.9em; }
+  p code, li code { background: var(--bg-raised); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+
+  /* Navigation */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 650; font-size: 1.15rem; letter-spacing: -0.01em; }
+  /* The logo file is the mascot plus a wordmark on black. This shows the mascot only, and
+     "lighten" keeps the page background wherever the image is darker than it. */
+  .brand .mark { width: 32px; height: 46px; background: url(images/logo.jpg) -4px -17px / 80px 80px no-repeat; mix-blend-mode: lighten; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.95rem; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links .hide-small { display: none; }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.98rem; border: 1px solid var(--line); transition: background 0.15s, border-color 0.15s; }
+  .btn:hover { border-color: var(--faint); background: var(--bg-raised); }
+  .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .btn-primary:hover { background: #fff; border-color: #fff; }
+  .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* Hero */
+  .hero { padding: 56px 0 0; border-top: 0; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 36px; padding: 0; list-style: none; }
+  .stack li { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+
+  .frame { margin-top: 56px; border: 1px solid var(--line); border-radius: var(--radius) var(--radius) 0 0; border-bottom: 0; background: var(--bg-raised); overflow: hidden; }
+  .frame-bar { display: flex; gap: 7px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .frame-bar span { width: 10px; height: 10px; border-radius: 50%; background: #3a3a37; }
+  .frame img { width: 100%; }
+
+  /* Folders */
+  .folders { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-top: 44px; }
+  .folder { background: var(--bg); padding: 26px 24px; }
+  .folder .mono { color: var(--accent); font-size: 1rem; }
+  .folder p { color: var(--muted); font-size: 0.97rem; margin-top: 10px; }
+  .folder .from { color: var(--faint); font-size: 0.82rem; margin-top: 14px; font-family: var(--mono); }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: 1fr; gap: 36px 48px; margin-top: 52px; }
+  .feature h3 { display: flex; align-items: baseline; gap: 12px; }
+  .feature h3::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); transform: translateY(-2px); }
+  .feature p { color: var(--muted); font-size: 0.97rem; margin-top: 8px; padding-left: 20px; }
+
+  /* Showcase rows */
+  .show { margin-top: 64px; }
+  .show + .show { margin-top: 88px; }
+  .show .pair { margin-top: 28px; }
+  .show.side { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: center; }
+  .show p { color: var(--muted); margin-top: 14px; max-width: 46ch; }
+  .show ul { color: var(--muted); margin: 16px 0 0; padding-left: 20px; font-size: 0.97rem; }
+  .show li { margin-top: 6px; }
+  .shot { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-raised); }
+  .shot.phone { max-width: 300px; margin: 0 auto; border-radius: 28px; border-width: 6px; border-color: #262624; }
+  .pair { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+  /* Code */
+  .code { position: relative; background: var(--bg-code); border: 1px solid var(--line); border-radius: var(--radius); margin-top: 24px; }
+  .code-title { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 0.8rem; color: var(--faint); }
+  .code pre { margin: 0; padding: 18px 16px; overflow-x: auto; font-family: var(--mono); font-size: 0.86rem; line-height: 1.75; color: var(--text); }
+  .code .c { color: var(--faint); }
+  .code .p { color: var(--accent); user-select: none; }
+  .copy { font: inherit; color: var(--muted); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+  .copy:hover { color: var(--text); border-color: var(--faint); }
+
+  .two { display: grid; grid-template-columns: 1fr; gap: 40px; margin-top: 44px; }
+  /* Grid items refuse to shrink below their content by default, which lets a wide code block push the page sideways */
+  .two > *, .show > *, .show.columns > div > *, .pair > * { min-width: 0; }
+  .two h3 { font-size: 1.25rem; }
+  .two p { color: var(--muted); margin-top: 10px; font-size: 0.97rem; }
+
+  .note { margin-top: 44px; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 18px 22px; color: var(--muted); font-size: 0.97rem; max-width: 76ch; }
+  .note strong { color: var(--text); font-weight: 600; }
+
+  /* Closing */
+  .closing { text-align: center; }
+  .closing h2 { margin: 0 auto; }
+  .closing .hero-actions { justify-content: center; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0 56px; color: var(--faint); font-size: 0.9rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+  footer nav { padding: 0; gap: 24px; flex-wrap: wrap; justify-content: flex-start; }
+
+  @media (min-width: 720px) {
+    .nav-links .hide-small { display: inline; }
+    .folders { grid-template-columns: repeat(2, 1fr); }
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .pair { grid-template-columns: repeat(2, 1fr); }
+    .two { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 980px) {
+    .folders { grid-template-columns: repeat(4, 1fr); }
+    .features { grid-template-columns: repeat(3, 1fr); }
+    .show.side { grid-template-columns: 7fr 5fr; gap: 56px; }
+    .show.columns > div:first-child { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: start; }
+    .show.columns ul { margin-top: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <nav aria-label="Main">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true"></span>gogokit</a>
+    <div class="nav-links">
+      <a class="hide-small" href="#inside">What's inside</a>
+      <a class="hide-small" href="#agents">For agents</a>
+      <a class="hide-small" href="#start">Get started</a>
+      <a href="https://github.com/nicklasos/gogokit">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Full-stack starter kit</p>
+    <h1>A Go API, a React admin panel, and a server to run them on.</h1>
+    <p class="lead">Gogokit gives a new project the parts every project needs: sign-in with roles, user management, uploads, monitoring, backups and deployment. It is a skeleton you copy and own, not a framework you depend on.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/nicklasos/gogokit">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.77-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+        View on GitHub
+      </a>
+      <a class="btn" href="#start">Run it locally</a>
+    </div>
+    <ul class="stack" aria-label="Built with">
+      <li>Go</li><li>Gin</li><li>PostgreSQL</li><li>sqlc</li><li>Redis</li><li>React</li><li>TypeScript</li><li>Ant Design</li><li>Playwright</li><li>Ansible</li>
+    </ul>
+    <div class="frame">
+      <div class="frame-bar" aria-hidden="true"><span></span><span></span><span></span></div>
+      <img src="images/admins.png" width="1280" height="720" alt="The admin panel: a list of admin accounts, with the main menu on the left and the super admin menu on the right">
+    </div>
+  </div>
+</section>
+
+<section id="inside">
+  <div class="wrap">
+    <p class="eyebrow">One repository</p>
+    <h2>Four folders. Clone once, and everything is there.</h2>
+    <p class="section-intro">No ORM, no hidden layers and no code you cannot read. Services call type-safe SQL directly, and the admin panel's types are generated from the API.</p>
+    <div class="folders">
+      <div class="folder">
+        <span class="mono">backend/</span>
+        <p>The API. Gin, PostgreSQL through sqlc, Redis, JWT sessions with roles and per-record policies.</p>
+        <p class="from">Go</p>
+      </div>
+      <div class="folder">
+        <span class="mono">frontend/</span>
+        <p>The admin panel. React, strict TypeScript, Ant Design and TanStack Query, in English and Ukrainian.</p>
+        <p class="from">React</p>
+      </div>
+      <div class="folder">
+        <span class="mono">backup/</span>
+        <p>Nightly backups of the database and uploaded files, to disk or Google Cloud Storage, with retention.</p>
+        <p class="from">Shell</p>
+      </div>
+      <div class="folder">
+        <span class="mono">deploy/</span>
+        <p>From an empty Ubuntu server to a running site with TLS, and a second command to release new code.</p>
+        <p class="from">Ansible</p>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <h3>Accounts, done properly</h3>
+        <p>Sign-in with rotating refresh tokens, password reset and email confirmation by emailed link, and a lockout that escalates on repeated failures.</p>
+      </div>
+      <div class="feature">
+        <h3>Roles and policies</h3>
+        <p>Super admins, admins and users. Who may do what to a record lives in one small file per module, mirrored in the UI.</p>
+      </div>
+      <div class="feature">
+        <h3>User management</h3>
+        <p>Screens for super admins and admins to create, edit and remove accounts, plus a profile page for everyone.</p>
+      </div>
+      <div class="feature">
+        <h3>Files and rich text</h3>
+        <p>Uploads checked by their content, not their name, and a markdown editor with a viewer that never runs embedded HTML.</p>
+      </div>
+      <div class="feature">
+        <h3>One contract</h3>
+        <p>The API generates its OpenAPI file; the admin panel generates its TypeScript types from it. Validation errors land under the right form field.</p>
+      </div>
+      <div class="feature">
+        <h3>Tests that mean something</h3>
+        <p>Go tests run against a real PostgreSQL and roll back after each one. Playwright drives the admin panel against the real API.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">A look around</p>
+    <h2>Working screens, not placeholders.</h2>
+
+    <div class="show">
+      <div>
+        <h3>A reference module to copy</h3>
+        <p>The examples module is the pattern for everything you add: a list paged on the server, a full-page editor with an unsaved-changes guard, and a markdown field.</p>
+      </div>
+      <div class="pair">
+        <a class="shot" href="images/examples.png"><img src="images/examples.png" width="1280" height="720" loading="lazy" alt="A paginated list of examples with edit, view and delete actions"></a>
+        <a class="shot" href="images/editor.png"><img src="images/editor.png" width="1280" height="720" loading="lazy" alt="The editor page with a title field and a markdown editor"></a>
+      </div>
+    </div>
+
+    <div class="show columns">
+      <div>
+        <div>
+          <h3>Monitoring comes built in</h3>
+          <p>A dashboard served by the API itself, behind its own password. No agent and no separate service to run.</p>
+        </div>
+        <ul>
+          <li>Requests, response times and errors per route</li>
+          <li>SQL statistics grouped by query name</li>
+          <li>Recent logs, linked to the request that wrote them</li>
+          <li>CPU, memory, disk and goroutines</li>
+        </ul>
+      </div>
+      <div class="pair">
+        <a class="shot" href="images/pulse-overview.png"><img src="images/pulse-overview.png" width="1280" height="860" loading="lazy" alt="Monitoring overview: request count, throughput, response time percentiles and slowest routes"></a>
+        <a class="shot" href="images/pulse-queries.png"><img src="images/pulse-queries.png" width="1280" height="860" loading="lazy" alt="SQL statistics: count, average and percentile times per query"></a>
+      </div>
+    </div>
+
+    <div class="show side">
+      <div>
+        <h3>Works on a phone</h3>
+        <p>Tables turn into cards, menus into drawers, and the page's main action moves to a bar at the bottom of the screen. None of it is per-page work: it comes from the shared components.</p>
+      </div>
+      <a class="shot phone" href="images/mobile.png"><img src="images/mobile.png" width="780" height="1560" loading="lazy" alt="The examples list on a phone, shown as cards with the add button at the bottom"></a>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <p class="eyebrow">Agentic development</p>
+    <h2>Written so a coding agent can extend it.</h2>
+    <p class="section-intro">The ease of a good framework comes from knowing where everything goes. Gogokit writes that down, for people and for agents alike.</p>
+    <div class="two">
+      <div>
+        <h3>A guide in every folder</h3>
+        <p>Each part has an <code>AGENTS.md</code> with its conventions: how a handler is shaped, where a rule belongs, what to run before calling the work done.</p>
+        <h3 style="margin-top:32px">Recipes instead of generators</h3>
+        <p>Step-by-step procedures for the changes a project sees most: add a module, add an endpoint, change the schema, add a screen, add a test. Each ends with how to check the result. They are also Claude Code skills.</p>
+        <h3 style="margin-top:32px">One reference to copy</h3>
+        <p>A complete example module on both sides, so "do it like that one" is always a valid instruction.</p>
+      </div>
+      <div>
+        <div class="code" style="margin-top:0">
+          <div class="code-title"><span>a feature, end to end</span></div>
+<pre><span class="c"># in a session with your agent</span>
+<span class="p">&gt;</span> /full-stack-feature orders
+
+<span class="c"># what the recipe walks through</span>
+backend/   migration, queries, policy,
+           service, handlers, factory, tests
+           make swagger &amp;&amp; make test
+
+frontend/  make api-types
+           types, api, hooks, policy,
+           pages, route, menu, locales
+           make test</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <p class="eyebrow">Get started</p>
+    <h2>Running locally in a few minutes.</h2>
+    <p class="section-intro">You need Go, Node.js, Docker for PostgreSQL and Redis, and Make.</p>
+
+    <div class="code">
+      <div class="code-title"><span>local development</span><button class="copy" type="button" data-copy="local">Copy</button></div>
+<pre id="local">git clone https://github.com/nicklasos/gogokit.git &amp;&amp; cd gogokit
+
+<span class="c"># API</span>
+cd backend &amp;&amp; cp .env.example .env
+make up            <span class="c"># PostgreSQL, Redis and a mail catcher in Docker</span>
+make migrate-up
+make seed          <span class="c"># admin@example.com / password123, plus sample data</span>
+make dev           <span class="c"># http://localhost:8181</span>
+
+<span class="c"># Admin panel, in a second terminal</span>
+cd frontend &amp;&amp; cp .env.example .env
+npm install &amp;&amp; npm run dev   <span class="c"># http://localhost:5173</span></pre>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>Then put it on a server</h3>
+        <p>Point a domain at a fresh Ubuntu server, fill in a settings file, and run one playbook. It installs PostgreSQL, Redis, Go, Node.js, nginx and supervisor, builds both halves, gets a certificate and schedules the backups.</p>
+        <p>Releasing new code afterwards is <code>ansible-playbook deploy.yml</code>: pull, build, migrate, restart, and wait for the health check.</p>
+      </div>
+      <div>
+        <div class="code" style="margin-top:0">
+          <div class="code-title"><span>a new server</span><button class="copy" type="button" data-copy="deploy">Copy</button></div>
+<pre id="deploy">cd deploy
+ansible-galaxy collection install -r requirements.yml
+cp inventory/hosts.example.yml inventory/hosts.yml
+cp secrets.example.yml group_vars/all/secrets.yml
+ansible-playbook provision.yml</pre>
+        </div>
+      </div>
+    </div>
+
+    <p class="note"><strong>Where it stands.</strong> The API skeleton is the base of three projects running in production. The admin panel rewrite, the monitoring wiring and the Ansible playbooks are newer: the playbooks pass their checks but have not yet been run against a real server, so do your first run on one you can throw away.</p>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <h2>Copy it, rename it, and start on what makes your project yours.</h2>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/nicklasos/gogokit">Get the kit on GitHub</a>
+      <a class="btn" href="https://github.com/nicklasos/gogokit#readme">Read the docs</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Gogokit is assembled from three projects, each usable on its own.</span>
+    <nav aria-label="Projects">
+      <a href="https://github.com/nicklasos/gogo">gogo</a>
+      <a href="https://github.com/nicklasos/gogo-front">gogo-front</a>
+      <a href="https://github.com/nicklasos/gopulse">gopulse</a>
+      <a href="https://github.com/nicklasos/backupit">backupit</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.copy').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var text = document.getElementById(button.dataset.copy).innerText
+      navigator.clipboard.writeText(text).then(function () {
+        button.textContent = 'Copied'
+        setTimeout(function () { button.textContent = 'Copy' }, 1600)
+      })
+    })
+  })
+</script>
+</body>
+</html>
