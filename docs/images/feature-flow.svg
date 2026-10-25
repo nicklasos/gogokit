@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" width="1200" height="520" role="img">
+<title>How a feature flows through Gogokit</title>
+<rect width="1200" height="520" rx="16" fill="#0f1f2b"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8fb3c7"/></marker></defs>
+<text x="32" y="46" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#e8f1f8" text-anchor="start">One feature, end to end</text>
+<text x="32" y="70" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#8fb3c7" text-anchor="start">internal/example and src/features/examples are the reference. Copy their shape for a new module.</text>
+<text x="32" y="112" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="700" fill="#5fc6e0" text-anchor="start">API  ·  backend/internal/example/</text>
+<rect x="32" y="128" width="170" height="64" rx="12" fill="#16303f" stroke="#5fc6e0" stroke-width="1.5"/>
+<text x="117.0" y="157.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#5fc6e0" text-anchor="middle">routes.go</text>
+<text x="117.0" y="176.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">Gin group + auth</text>
+<rect x="236" y="128" width="170" height="64" rx="12" fill="#16303f" stroke="#5fc6e0" stroke-width="1.5"/>
+<text x="321.0" y="157.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#5fc6e0" text-anchor="middle">handler.go</text>
+<text x="321.0" y="176.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">bind, validate, JSON</text>
+<rect x="440" y="128" width="170" height="64" rx="12" fill="#16303f" stroke="#5fc6e0" stroke-width="1.5"/>
+<text x="525.0" y="157.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#5fc6e0" text-anchor="middle">*_service.go</text>
+<text x="525.0" y="176.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">rules, cache, tx</text>
+<rect x="644" y="128" width="170" height="64" rx="12" fill="#16303f" stroke="#8fb3c7" stroke-width="1.5"/>
+<text x="729.0" y="157.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#8fb3c7" text-anchor="middle">db.Queries</text>
+<text x="729.0" y="176.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">typed Go, by sqlc</text>
+<rect x="848" y="128" width="170" height="64" rx="12" fill="#16303f" stroke="#5fc6e0" stroke-width="1.5"/>
+<text x="933.0" y="157.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#5fc6e0" text-anchor="middle">PostgreSQL</text>
+<text x="933.0" y="176.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">pgx pool</text>
+<path d="M202 160.0L232 160.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<path d="M406 160.0L436 160.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<path d="M610 160.0L640 160.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<path d="M814 160.0L844 160.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<rect x="1036" y="128" width="132" height="64" rx="12" fill="#16303f" stroke="#7bd88f" stroke-width="1.5"/>
+<text x="1102.0" y="157.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#7bd88f" text-anchor="middle">gopulse</text>
+<text x="1102.0" y="176.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">watches it all</text>
+<rect x="440" y="236" width="170" height="54" rx="12" fill="#16303f" stroke="#7bd88f" stroke-width="1.5"/>
+<text x="525.0" y="260.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#7bd88f" text-anchor="middle">policy.go</text>
+<text x="525.0" y="279.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">CanView, CanUpdate</text>
+<path d="M525 236L525 196" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<rect x="644" y="236" width="170" height="54" rx="12" fill="#16303f" stroke="#f5c06b" stroke-width="1.5"/>
+<text x="729.0" y="260.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#f5c06b" text-anchor="middle">queries/*.sql</text>
+<text x="729.0" y="279.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">-- name: ListExamples</text>
+<rect x="848" y="236" width="170" height="54" rx="12" fill="#16303f" stroke="#f5c06b" stroke-width="1.5"/>
+<text x="933.0" y="260.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#f5c06b" text-anchor="middle">migrations/*.sql</text>
+<text x="933.0" y="279.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">tables, indexes</text>
+<path d="M729 236L729 196" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<text x="744" y="222" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8fb3c7" text-anchor="start">make sqlc</text>
+<path d="M933 236V196" stroke="#8fb3c7" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#a)"/>
+<text x="948" y="222" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8fb3c7" text-anchor="start">make migrate-up</text>
+<path d="M32 318H1168" stroke="#24485c" stroke-width="1.5" stroke-dasharray="2 6"/>
+<text x="136" y="354" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="700" fill="#4a94ec" text-anchor="start">Contract · make swagger, then make api-types</text>
+<rect x="32" y="370" width="170" height="64" rx="12" fill="#16303f" stroke="#8fb3c7" stroke-width="1.5"/>
+<text x="117.0" y="399.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#8fb3c7" text-anchor="middle">swagger.json</text>
+<text x="117.0" y="418.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">from handler comments</text>
+<rect x="236" y="370" width="170" height="64" rx="12" fill="#16303f" stroke="#8fb3c7" stroke-width="1.5"/>
+<text x="321.0" y="399.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#8fb3c7" text-anchor="middle">api/schema.ts</text>
+<text x="321.0" y="418.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">generated TS types</text>
+<rect x="440" y="370" width="170" height="64" rx="12" fill="#16303f" stroke="#4a94ec" stroke-width="1.5"/>
+<text x="525.0" y="399.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#4a94ec" text-anchor="middle">api.ts</text>
+<text x="525.0" y="418.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">typed calls</text>
+<rect x="644" y="370" width="170" height="64" rx="12" fill="#16303f" stroke="#4a94ec" stroke-width="1.5"/>
+<text x="729.0" y="399.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#4a94ec" text-anchor="middle">hooks.ts</text>
+<text x="729.0" y="418.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">TanStack Query</text>
+<rect x="848" y="370" width="170" height="64" rx="12" fill="#16303f" stroke="#4a94ec" stroke-width="1.5"/>
+<text x="933.0" y="399.0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5" font-weight="700" fill="#4a94ec" text-anchor="middle">pages/*.tsx</text>
+<text x="933.0" y="418.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">Ant Design</text>
+<path d="M202 402.0L232 402.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<path d="M406 402.0L436 402.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<path d="M610 402.0L640 402.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<path d="M814 402.0L844 402.0" stroke="#8fb3c7" stroke-width="1.8" marker-end="url(#a)"/>
+<rect x="1036" y="370" width="132" height="64" rx="12" fill="#16303f" stroke="#7bd88f" stroke-width="1.5"/>
+<text x="1102.0" y="399.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#7bd88f" text-anchor="middle">Playwright</text>
+<text x="1102.0" y="418.0" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#8fb3c7" text-anchor="middle">e2e, real API</text>
+<text x="32" y="480" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" font-weight="400" fill="#8fb3c7" text-anchor="start">Recipes: backend/docs/recipes/add-module.md · frontend/docs/recipes/add-feature.md · full-stack-feature.md</text>
+<path d="M290 192V300H117V366" fill="none" stroke="#8fb3c7" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#a)"/>
+<text x="136" y="292" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#8fb3c7" text-anchor="start">swag reads handler comments</text>
+</svg>

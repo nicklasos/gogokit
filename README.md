@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="docs/images/logo.jpg" alt="Gogokit" width="140">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
+    <img src="docs/images/logo.svg" alt="Gogokit" width="360">
+  </picture>
 </p>
-
-<h1 align="center">Gogokit</h1>
 
 <p align="center">
   A full-stack starter kit: a Go API, a React admin panel, backups, and one command to put it on a server.<br>
@@ -23,12 +24,11 @@
   <a href="https://nicklasos.github.io/gogokit/">Website</a> ·
   <a href="#run-it-locally">Run it locally</a> ·
   <a href="#whats-inside">What's inside</a> ·
+  <a href="#where-things-live">Where things live</a> ·
   <a href="#screenshots">Screenshots</a> ·
   <a href="#deploy-to-a-new-server">Deploy</a> ·
   <a href="#start-a-project-from-it">Start a project</a>
 </p>
-
-![The admin panel](docs/images/admins.png)
 
 ---
 
@@ -42,6 +42,8 @@ Four folders, one repository:
 | [`deploy/`](deploy) | Ansible that provisions a server, or installs on an existing one, and deploys the three above |
 
 It is a skeleton, not a framework: there is no ORM and no code you cannot read. You copy it, rename it and start adding modules.
+
+![The stack: Go, Gin, PostgreSQL, sqlc, Redis, JWT, Swagger and gopulse for the API; React, TypeScript, Ant Design, TanStack Query, Vite, React Router, i18next and Playwright for the admin panel; Ansible, nginx, supervisor, Cloud Storage, Sentry, GitHub Actions, Gremlins and Stryker for operations](docs/images/stack.svg)
 
 ## What's inside
 
@@ -66,6 +68,7 @@ It is a skeleton, not a framework: there is no ORM and no code you cannot read. 
 
 **Monitoring**
 - A dashboard served by the API itself ([gopulse](https://github.com/nicklasos/gopulse)): requests per route, errors and panics, SQL statistics by query name, logs, server load
+- Optional error tracking with Sentry in the API and the panel
 
 **Operations**
 - Nightly backups of the database and uploaded files, with retention
@@ -76,23 +79,37 @@ It is a skeleton, not a framework: there is no ORM and no code you cannot read. 
 - An `AGENTS.md` in every folder, and step-by-step recipes for the common changes
   ([backend](backend/docs/recipes), [frontend](frontend/docs/recipes)), also available as Claude Code skills
 
+## Where things live
+
+SQL lives in `.sql` files, and sqlc turns it into typed Go. Each API module is one folder with routes, a handler, a service and a policy, and each admin screen is one folder under `src/features`.
+
+![Repository map: backend migrations and SQL queries, generated db code, module routes, handler, service and policy files; frontend generated API types, feature folders with api, hooks, policy and pages; deploy playbooks, roles and settings; backup scripts](docs/images/structure.svg)
+
+A request goes from the route to the handler, the service and the generated queries. The OpenAPI file carries the types over to the admin panel, so a changed response shows up as a TypeScript error.
+
+![One feature end to end: routes.go, handler.go, service, db.Queries and PostgreSQL in the API; swagger.json, schema.ts, api.ts, hooks.ts and pages in the admin panel](docs/images/feature-flow.svg)
+
 ## Screenshots
 
-| Sign in | A list with server-side paging |
-|---|---|
-| ![Sign in](docs/images/login.png) | ![Examples list](docs/images/examples.png) |
+**Admin panel**
 
-| Markdown editor | Profile |
+| Sign in | User management |
 |---|---|
-| ![Editor](docs/images/editor.png) | ![Profile](docs/images/profile.png) |
+| ![Sign in](docs/images/login.png) | ![Admins list](docs/images/admins.png) |
 
-| Monitoring: requests | Monitoring: SQL queries |
+| A list with server-side paging | Markdown editor |
 |---|---|
-| ![Monitoring overview](docs/images/pulse-overview.png) | ![Query statistics](docs/images/pulse-queries.png) |
+| ![Examples list](docs/images/examples.png) | ![Editor](docs/images/editor.png) |
 
-| API documentation | On a phone |
+| Profile | On a phone |
 |---|---|
-| ![Swagger](docs/images/swagger.png) | <img src="docs/images/mobile.png" alt="On a phone" width="280"> |
+| ![Profile](docs/images/profile.png) | <img src="docs/images/mobile.png" alt="On a phone" width="280"> |
+
+**Monitoring and API documentation**
+
+| Requests | SQL queries | Swagger |
+|---|---|---|
+| ![Monitoring overview](docs/images/pulse-overview.png) | ![Query statistics](docs/images/pulse-queries.png) | ![Swagger](docs/images/swagger.png) |
 
 ## Run it locally
 
