@@ -119,6 +119,8 @@ make playwright-browsers
 | Variable | Purpose |
 |----------|---------|
 | `VITE_API_BASE_URL` | gogo API origin, e.g. `http://localhost:8181` (the client appends `/api/v1`) |
+| `VITE_SENTRY_DSN` | Sentry DSN for error reporting; empty turns it off (read at build time) |
+| `VITE_SENTRY_ENVIRONMENT` | Sentry environment tag, e.g. `production`; defaults to the Vite mode |
 | `PORT` | Dev server port (default `5173`) |
 | `TEST_FRONTEND_PORT` | E2E Vite port (default `5175`) |
 | `TEST_BACKEND_PORT` | E2E gogo port (default `8184`) |

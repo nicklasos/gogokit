@@ -83,6 +83,7 @@ All in `group_vars/all/main.yml`, each with a comment. The ones you will set for
 | `letsencrypt_email` | Required for `letsencrypt` |
 | `mail_host` and friends | SMTP, for password reset and verification emails |
 | `backup_storage` | `local`, `gcs` or `local,gcs` |
+| `sentry_dsn_backend`, `sentry_dsn_frontend` | Optional Sentry error reporting for the API and the panel; empty turns it off |
 
 Secrets (`group_vars/all/secrets.yml`): `db_password`, `jwt_secret`, `pulse_password`, `mail_password`.
 

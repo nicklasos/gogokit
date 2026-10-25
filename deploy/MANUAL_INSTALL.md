@@ -19,6 +19,7 @@ chown www-data: shared/uploads
 cp backend/.env.example backend/.env        # then apply deploy/examples/backend.env
 chgrp www-data backend/.env && chmod 640 backend/.env
 printf 'VITE_API_BASE_URL=\nVITE_APP_NAME="MyApp"\n' > frontend/.env
+# Optional, read at build time: VITE_SENTRY_DSN=... and VITE_SENTRY_ENVIRONMENT=production in frontend/.env
 
 make deploy SUPERVISOR_PROGRAM=             # first build and migrations; nothing to restart yet
 

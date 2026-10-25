@@ -63,6 +63,12 @@ mail_username: ""
 mail_from_address: "noreply@{{ domain }}"
 mail_from_name: "{{ app_display_name }}"
 
+# --- Error tracking (leave a DSN empty to turn that side off) ---------------
+# Sentry DSNs only allow sending events, so they live here rather than in secrets.yml.
+# Events are tagged with APP_ENV (production unless app_env is set).
+sentry_dsn_backend: ""
+sentry_dsn_frontend: ""
+
 # --- Backups ----------------------------------------------------------------
 # One or more of: local, gcs (comma-separated)
 backup_storage: local

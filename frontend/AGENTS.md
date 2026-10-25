@@ -87,6 +87,11 @@ Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `
 - A boundary only catches render errors. Failed requests are handled by the query layer (see Errors).
 - An unmatched URL renders `NotFoundPage` inside the shell; do not redirect unknown paths.
 
+## Error tracking
+- Sentry starts in `app/sentry.ts`, called from `main.tsx`, only when `VITE_SENTRY_DSN` is set at build time. `VITE_SENTRY_ENVIRONMENT` tags events and falls back to the Vite mode.
+- React's root error hooks report every render error, including the ones the `ErrorBoundary`s catch. Failed requests are not reported: the API reports its own 5xx.
+- Do not call Sentry from features.
+
 ## Signed-out pages
 `app/router.tsx` has two route trees: `PublicRoutes` (login, forgot/reset password, verify email) and `AppRoutes` (everything inside `AppShell`). Signed-out pages sit in `auth/AuthCard`. Any other URL shows the login form in place, so signing in lands on the page that was asked for.
 
