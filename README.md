@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://github.com/nicklasos/gogokit/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/nicklasos/gogokit/actions/workflows/ci.yml/badge.svg"></a>
-  <img alt="Go" src="https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go&logoColor=white">
+  <img alt="Go" src="https://img.shields.io/badge/Go-1.27.3+-00ADD8?logo=go&logoColor=white">
   <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-sqlc-4169E1?logo=postgresql&logoColor=white">
   <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white">
@@ -96,7 +96,7 @@ It is a skeleton, not a framework: there is no ORM and no code you cannot read. 
 
 ## Run it locally
 
-You need Go 1.25+, Node.js 22+, Docker (for PostgreSQL and Redis) and Make.
+You need Go 1.27.3+, Node.js 22+, Docker (for PostgreSQL and Redis) and Make.
 
 ```bash
 git clone git@github.com:nicklasos/gogokit.git && cd gogokit

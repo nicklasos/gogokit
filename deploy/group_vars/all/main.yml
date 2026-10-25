@@ -35,7 +35,7 @@ timezone: Etc/UTC
 # A swap file keeps the frontend build from being killed on a small server. 0 turns it off.
 swap_size_mb: 2048
 
-go_version: "1.25.4"
+go_version: "1.27.3"
 goose_version: v3.24.1
 node_major: 22
 
