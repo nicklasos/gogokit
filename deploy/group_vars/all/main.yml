@@ -74,6 +74,9 @@ sentry_dsn_frontend: ""
 backup_storage: local
 backup_local_dir: "/var/backups/{{ app_name }}"
 backup_retention_days: 14
+# The first backup of this day each week (mon..sun, "" = off) is kept for backup_keep_weekly_days (0 = forever)
+backup_keep_weekly_day: sun
+backup_keep_weekly_days: 365
 # Cron times (server time zone)
 backup_db_hour: "3"
 backup_db_minute: "15"
